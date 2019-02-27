@@ -1,5 +1,7 @@
 # gridiculous
 
+[![CircleCI](https://circleci.com/gh/capsule8/gridiculous.svg?style=svg)](https://circleci.com/gh/capsule8/gridiculous)
+
 ## Install
 
 ```bash
