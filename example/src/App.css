@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css?family=Questrial');
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 50px;
+  margin: -14px;
+}
+
+.App-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  padding-bottom: 30px;
+  padding-left: 36px;
+  padding-right: 36px;
+}
+
+.App-title {
+  display: flex;
+  align-items: center;
+  color: black;
+  font-size: 36px;
+  margin: 16px;
+  font-family: 'Questrial', sans-serif;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.Grid-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.GeneratingDataForm label {
+  margin: 8px;
+}

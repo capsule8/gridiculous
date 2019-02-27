@@ -1,0 +1,99 @@
+{
+  "name": "gridiculous",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "jsnext:main": "dist/index.es.js",
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "tslint 'src/**/*.ts?(x)'",
+    "build": "rollup -c",
+    "start": "rollup -c -w",
+    "prepare": "yarn run build",
+    "predeploy": "cd example && yarn install && yarn run build",
+    "deploy": "gh-pages -d example/build"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "react": "^16.8.3",
+    "react-beautiful-dnd": "^10.0.3",
+    "react-dom": "^16.8.3"
+  },
+  "devDependencies": {
+    "@svgr/rollup": "^2.4.1",
+    "@types/classnames": "^2.2.7",
+    "@types/jest": "^23.3.10",
+    "@types/lodash-es": "^4.17.1",
+    "@types/react": "^16.8.4",
+    "@types/react-beautiful-dnd": "^10.0.1",
+    "@types/react-dom": "^16.8.2",
+    "@types/react-window": "^1.1.0",
+    "classnames": "^2.2.6",
+    "cross-env": "^5.1.4",
+    "gh-pages": "^1.2.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^23.6.0",
+    "lodash-es": "^4.17.11",
+    "node-sass": "^4.11.0",
+    "parcel-bundler": "^1.10.3",
+    "react": "^16.8.3",
+    "react-beautiful-dnd": "10.0.3",
+    "react-dom": "^16.8.3",
+    "rollup": "^1.0.1",
+    "rollup-plugin-babel": "^3.0.7",
+    "rollup-plugin-bundle-size": "^1.0.2",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.0",
+    "rollup-plugin-postcss": "^1.6.3",
+    "rollup-plugin-typescript2": "^0.18.1",
+    "rollup-plugin-url": "^2.1.0",
+    "ts-jest": "^23.10.5",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.17.0",
+    "tslint-react": "^3.6.0",
+    "tslint-react-hooks": "^1.1.0",
+    "typescript": "^3.2.2"
+  },
+  "files": [
+    "dist"
+  ],
+  "prettier": {
+    "singleQuote": true,
+    "arrowParens": "always",
+    "trailingComma": "all"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|scss)$": "identity-obj-proxy"
+    },
+    "transform": {
+      "^.+\\.(t|j)sx?$": "ts-jest"
+    },
+    "transformIgnorePatterns": [],
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "tsconfig.test.json"
+      }
+    }
+  },
+  "test": "jest",
+  "types": "./dist/src/index.d.ts"
+}

@@ -1,0 +1,12 @@
+@import '../shared.scss';
+
+.Header {
+  border-bottom: 1px solid $gray;
+  grid-column: 1 / -1;
+  display: flex;
+  font-weight: bold;
+}
+
+.isAnyDragging {
+  background-color: $gray;
+}

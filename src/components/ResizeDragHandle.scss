@@ -1,0 +1,39 @@
+@import '../shared.scss';
+
+$extra-handle-width: 8px;
+$visible-handle-width: 1px;
+
+.ResizeDragHandle {
+  bottom: 0;
+  cursor: col-resize;
+  position: absolute;
+  right: -$visible-handle-width / 2;
+  top: 0;
+  width: $visible-handle-width;
+  opacity: 0;
+}
+
+.isHidden {
+  opacity: 0;
+}
+
+.ExtraHandle {
+  position: absolute;
+  width: $extra-handle-width;
+  background-color: red;
+  height: 100%;
+  opacity: 0;
+  right: -$extra-handle-width / 2;
+}
+
+.moveLeftToAvoidOverflow {
+  right: 0;
+
+  .InvisibleHandle {
+    right: 0;
+  }
+}
+
+body.colResizing {
+  cursor: col-resize !important;
+}

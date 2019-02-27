@@ -1,0 +1,24 @@
+@import './Cell.scss';
+
+.Row {
+  display: contents;
+
+  &:hover {
+    background-color: #fafafa;
+  }
+
+  &.isSelected {
+    // TODO?
+  }
+
+  &.isClickable {
+    cursor: pointer;
+  }
+}
+
+.NullCell {
+  background-color: inherit;
+  width: 100%;
+  height: 100%;
+  border-bottom: 1px solid $cell-border-color;
+}

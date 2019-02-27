@@ -1,0 +1,55 @@
+@import '../shared.scss';
+
+$header-cell-vertical-padding: 16px;
+$header-cell-height: 56px;
+
+.HeaderCell {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  position: relative;
+  grid-row: 1;
+  height: $header-cell-height;
+  border: 1px solid rgba(0, 0, 0, 0);
+  opacity: 1;
+  transition: 150 opacity ease-out, 250ms box-shadow ease-out;
+
+  &:hover {
+    transition: 250ms box-shadow ease-out;
+    border-right: 1px solid $gray;
+    border-left: 1px solid $gray;
+  }
+
+  &.isAnyDragging:not(.notResizable) {
+    background-color: white;
+    border-right: 1px solid $gray;
+  }
+
+  &.notResizable:hover {
+    border: 1px solid rgba(0, 0, 0, 0);
+  }
+
+  &.isDragging {
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px;
+    transition: 150ms opacity ease-in, 300ms box-shadow ease-in;
+    opacity: 0.7;
+  }
+}
+
+.LabelContainer {
+  width: 100%;
+  height: 100%;
+  padding: 0 $header-cell-vertical-padding;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.Label {
+  width: 100%;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

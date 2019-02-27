@@ -1,0 +1,51 @@
+@import '../shared.scss';
+
+.GridPane {
+  color: $black;
+  position: relative;
+  width: 100%;
+  margin-top: -100vh; // for allowing dragging columns above grid
+  pointer-events: none; // for allowing dragging columns above grid
+}
+
+$shadowSize: 8px;
+$innerShadowLeft: inset $shadowSize 0px $shadowSize (-$shadowSize)
+  rgba(0, 0, 0, 0.1);
+$innerShadowRight: inset (-$shadowSize) 0px $shadowSize (-$shadowSize)
+  rgba(0, 0, 0, 0.1);
+
+.Grid {
+  text-align: left;
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: grid;
+  position: relative;
+  background-color: white;
+  margin-top: 100vh; // for allowing dragging columns above grid
+  pointer-events: all; // for allowing dragging columns above grid
+  border: 1px solid $gray;
+  transition: 160ms box-shadow ease-out;
+  padding-left: 4px;
+  padding-right: 4px;
+
+  .HeaderCell {
+    display: none;
+  }
+
+  &.canScrollRight {
+    box-shadow: $innerShadowRight;
+  }
+
+  &.canScrollLeft {
+    box-shadow: $innerShadowLeft;
+  }
+
+  &.canScrollLeft.canScrollRight {
+    box-shadow: $innerShadowRight, $innerShadowLeft;
+  }
+}
+
+.canScrollLeft,
+.canScrollRight {
+  transition: 160ms box-shadow ease-in;
+}

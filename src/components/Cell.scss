@@ -1,0 +1,36 @@
+@import '../shared.scss';
+
+$cell-horizontal-padding: 16px;
+$cell-text-color: $black;
+$cell-height: 72px;
+$cell-border-color: $gray;
+
+.Cell {
+  background-color: inherit;
+  box-sizing: border-box;
+  padding: 0 $cell-horizontal-padding;
+
+  color: $cell-text-color;
+  height: $cell-height;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  border-bottom: 1px solid $cell-border-color;
+  transition: 200ms color ease-out;
+
+  &.isLastRow {
+    border-bottom: none;
+  }
+}
+
+.Content {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.isDragging {
+  color: gray;
+  transition: 200ms color ease-in;
+}
