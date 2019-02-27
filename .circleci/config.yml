@@ -1,0 +1,12 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: node:lts
+    steps:
+      - run:
+          command: |
+            yarn
+            yarn lint
+            yarn test
+            yarn build
