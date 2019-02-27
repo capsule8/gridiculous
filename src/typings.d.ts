@@ -1,3 +1,5 @@
+/* eslint-disable import/no-default-export, @typescript-eslint/no-empty-interface, import/export */
+
 /**
  * Default CSS definition for typescript,
  * will be overridden with file-specific definitions by rollup

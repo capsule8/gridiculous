@@ -1,0 +1,1 @@
+- remove `"import/named": 0,` line from eslintConfig in package.json (https://github.com/benmosher/eslint-plugin-import/issues/1285)

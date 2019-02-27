@@ -63,7 +63,7 @@ export const GridWrapped = React.forwardRef(
       [rawColumns],
     );
 
-    const isColumnDragDisabled = !Boolean(onColumnsOrderChange);
+    const isColumnDragDisabled = !onColumnsOrderChange;
 
     const { canScrollLeft, canScrollRight } = usePaneScrollState();
 
@@ -86,7 +86,7 @@ export const GridWrapped = React.forwardRef(
       columnVisibility,
       observerComponent,
     ] = useColumnsIntersectionObserver({
-      columnsLength: columns.length,
+      columns,
       dataLength: data.length,
       isEnabled: Boolean(virtualizationEnabled),
     });

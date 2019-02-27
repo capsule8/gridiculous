@@ -1,3 +1,6 @@
+/* eslint-disable import/no-default-export, @typescript-eslint/no-empty-interface, import/export */
+/* eslint-disable import/no-default-export, @typescript-eslint/no-empty-interface, import/export */
+
 interface SvgrComponent
   extends React.StatelessComponent<React.SVGAttributes<SVGElement>> {}
 

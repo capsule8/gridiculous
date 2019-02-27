@@ -16,7 +16,7 @@ import styles from './HeaderCell.scss';
 
 interface DragProps {
   dragHandleProps?: DraggableProvidedDragHandleProps | null;
-  draggableInnerRef?: (element?: HTMLElement | null | undefined) => any;
+  draggableInnerRef?: (element?: HTMLElement | null | undefined) => void;
   draggableProps?: DraggableProvidedDraggableProps;
   style?: DraggingStyle | NotDraggingStyle;
   transform?: string;

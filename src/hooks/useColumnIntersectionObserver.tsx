@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { GridNodeContext } from '../context';
+import { Column } from '../types';
 import { useIntersectionObserver } from './useIntersectionObserver';
 
 function ColumnIntersectionObserver({
@@ -49,16 +50,16 @@ function ColumnIntersectionObserver({
 }
 
 export function useColumnsIntersectionObserver({
-  columnsLength,
+  columns,
   dataLength,
   isEnabled,
 }: {
-  columnsLength: number;
+  columns: Column[];
   dataLength: number;
   isEnabled: boolean;
 }): [boolean[] | null, React.ReactNode | null] {
   const [columnVisibility, setColumnVisibility] = React.useState<boolean[]>([
-    ...Array(columnsLength).fill(false),
+    ...Array(columns.length).fill(false),
   ]);
 
   const handleColumnIntersectingChange = React.useCallback(
@@ -84,7 +85,7 @@ export function useColumnsIntersectionObserver({
           columnIndex={columnIndex}
           dataLength={dataLength}
           isEnabled={isEnabled}
-          key={columnIndex}
+          key={columns[columnIndex].key}
           onIsIntersectingChange={handleColumnIntersectingChange}
         />
       ))}

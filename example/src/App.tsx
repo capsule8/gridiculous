@@ -6,6 +6,7 @@ import { Column, Datum, Grid, useColumnOrderState } from 'gridiculous';
 import './App.css';
 import logo from './logo.svg';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Formatter = (o: { value: any }) => React.ReactNode;
 
 const dateFormatter: Formatter = ({ value }) => value.toDateString();
@@ -121,11 +122,12 @@ export function App() {
       <header className="App-header">
         <div className="App-title">
           Gridicul
-          <img className="App-logo" src={logo} />
+          <img className="App-logo" src={logo} alt="o" />
           us
         </div>
-        <button onClick={toggleGeneratingData}>
-          Generate Data: {isGeneratingData ? 'on' : 'off'}
+        <button onClick={toggleGeneratingData} type="button">
+          Generate Data:
+          {isGeneratingData ? 'on' : 'off'}
         </button>
         <div className="Grid-container">
           <Grid
@@ -134,7 +136,7 @@ export function App() {
             defaultColumnMinWidth={150}
             onColumnsOrderChange={handleColumnOrderChange}
             onColumnWidthChange={handleColumnWidthsChange}
-            virtualizationEnabled={true}
+            virtualizationEnabled
           />
         </div>
       </header>
@@ -142,6 +144,8 @@ export function App() {
   );
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // for debugging
 (window as any)._ = _;
 (window as any).faker = faker;
+/* eslint-enable */

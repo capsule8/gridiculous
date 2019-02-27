@@ -1,4 +1,4 @@
-import { Grid } from '../';
+import { Grid } from '..';
 
 describe('Grid', () => {
   it('is truthy', () => {
