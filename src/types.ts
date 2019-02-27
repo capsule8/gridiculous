@@ -1,6 +1,6 @@
 export interface Column {
   defaultWidth?: number;
-  key: string; sdlfkjsdflkjsdfljk
+  key: string;
   hidden?: boolean;
   label?: React.ReactNode; // optional display label for header
   maxWidth?: number;
