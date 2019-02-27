@@ -128,7 +128,10 @@
         }
       ],
       "no-param-reassign": "off",
-      "react/jsx-boolean-value": "always"
+      "react/jsx-boolean-value": [
+        2,
+        "always"
+      ]
     },
     "env": {
       "browser": true,

@@ -136,7 +136,7 @@ export function App() {
             defaultColumnMinWidth={150}
             onColumnsOrderChange={handleColumnOrderChange}
             onColumnWidthChange={handleColumnWidthsChange}
-            virtualizationEnabled
+            virtualizationEnabled={true}
           />
         </div>
       </header>
