@@ -24,7 +24,7 @@ export function RowOverlay({
     if (ref.current && gridNode) {
       ref.current.style.width = `${gridNode.clientWidth}px`;
     }
-  }, [gridNode, ref.current]);
+  }, [gridNode]);
 
   React.useEffect(() => {
     window.addEventListener('resize', handleResize);
@@ -39,7 +39,7 @@ export function RowOverlay({
       ref.current.style.left = `${gridNode.scrollLeft}px`;
       ref.current.style.width = `${gridNode.clientWidth}px`;
     }
-  }, [gridNode, ref.current]);
+  }, [gridNode]);
 
   const scrollInterval = React.useRef<NodeJS.Timeout | null>(null);
   const handleScroll = React.useCallback(() => {
@@ -80,10 +80,12 @@ export function RowOverlay({
         clearInterval(scrollInterval.current);
       }
     };
-  }, [scrollInterval.current]);
+  }, []);
 
   React.useEffect(() => {
-    recalculatePosition();
+    if (isHoveringRow) {
+      recalculatePosition();
+    }
   }, [isHoveringRow, recalculatePosition]);
 
   if (!gridNode) {

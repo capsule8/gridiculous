@@ -46,7 +46,7 @@ export function useIntersectionObserver({
       };
     }
     return () => {};
-  }, [isEnabled, isIntersecting, root, rootMargin]);
+  }, [isEnabled, root, rootMargin, target]);
 
   return isIntersecting;
 }
