@@ -103,5 +103,69 @@
     }
   },
   "test": "jest",
-  "types": "./dist/src/index.d.ts"
+  "types": "./dist/src/index.d.ts",
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": "./tsconfig.json",
+      "tsconfigRootDir": "."
+    },
+    "plugins": [
+      "@typescript-eslint",
+      "react-hooks",
+      "prettier"
+    ],
+    "extends": [
+      "airbnb",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:import/typescript",
+      "plugin:prettier/recommended",
+      "prettier/@typescript-eslint"
+    ],
+    "rules": {
+      "import/prefer-default-export": 0,
+      "import/named": 0,
+      "import/no-default-export": 2,
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": true
+        }
+      ],
+      "react/jsx-filename-extension": [
+        "error",
+        {
+          "extensions": [
+            ".tsx"
+          ]
+        }
+      ],
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "no-use-before-define": [
+        "error",
+        {
+          "functions": false
+        }
+      ],
+      "@typescript-eslint/no-use-before-define": [
+        "error",
+        {
+          "functions": false
+        }
+      ],
+      "no-param-reassign": "off",
+      "react/jsx-boolean-value": [
+        2,
+        "always"
+      ]
+    },
+    "env": {
+      "browser": true,
+      "jest": true
+    }
+  },
+  "eslintIgnore": [
+    "rollup.config.js",
+    "*.scss"
+  ]
 }
