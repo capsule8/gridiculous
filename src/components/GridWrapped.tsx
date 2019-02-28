@@ -29,7 +29,7 @@ export interface Props {
   ) => void;
   onColumnWidthChange?: (key: string, newWidth: number) => void;
   onRowClick?: RowClickHandler;
-  rowKey?: string | ((d: Datum) => string);
+  rowKey: string | ((d: Datum) => string);
   rowOverlay?: RowOverlayChild;
   selectedRowIndexes?: Set<number>;
   virtualizationEnabled?: boolean;
@@ -49,7 +49,7 @@ export const GridWrapped = React.forwardRef(
       onColumnsOrderChange,
       onColumnWidthChange,
       onRowClick,
-      rowKey = 'id',
+      rowKey,
       rowOverlay,
       selectedRowIndexes,
       virtualizationEnabled,
