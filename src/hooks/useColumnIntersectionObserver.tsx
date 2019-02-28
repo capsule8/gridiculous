@@ -31,7 +31,7 @@ function ColumnIntersectionObserver({
     if (isEnabled) {
       onIsIntersectingChange(columnIndex, isIntersecting);
     }
-  }, [columnIndex, isIntersecting, onIsIntersectingChange]);
+  }, [columnIndex, isEnabled, isIntersecting, onIsIntersectingChange]);
 
   if (!isEnabled) {
     return null;

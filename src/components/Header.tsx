@@ -71,7 +71,7 @@ export function Header({
       }
       trackCells(rawColumns);
     },
-    [gridNode, trackCells, rawColumns],
+    [gridNode, trackCells, rawColumns, defaultColumnMinWidth],
   );
 
   return (

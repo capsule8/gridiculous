@@ -65,7 +65,7 @@ export const Row = React.memo(
           onClick(e, { rowIndex, datum });
         }
       },
-      [onClick],
+      [datum, onClick, rowIndex],
     );
 
     return (

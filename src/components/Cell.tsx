@@ -40,7 +40,7 @@ export const Cell = React.memo(
           return renderer({ datum, rowIndex, value: valueFromKey });
         }
         return valueFromKey;
-      }, [datum, isColumnVisible, renderer, key]);
+      }, [datum, isColumnVisible, renderer, key, rowIndex]);
 
       return (
         <div

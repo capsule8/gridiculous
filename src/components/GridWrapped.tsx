@@ -39,6 +39,7 @@ interface WrappedProps {
   gridRef: React.MutableRefObject<HTMLElement | null>;
 }
 
+let x = 0;
 export const GridWrapped = React.forwardRef(
   (
     {
@@ -56,6 +57,11 @@ export const GridWrapped = React.forwardRef(
     }: Props & WrappedProps,
     externalRef: React.MutableRefObject<HTMLElement | null>,
   ) => {
+    x += 1;
+    if (x < 1) {
+      React.useEffect(() => {}, []);
+    }
+
     const columns: Column[] = React.useMemo(
       () =>
         rawColumns

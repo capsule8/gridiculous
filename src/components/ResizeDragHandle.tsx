@@ -54,7 +54,7 @@ export function ResizeDragHandle({
         document.body.classList.add(styles.colResizing);
       }
     },
-    [minWidth, targetRef, isDragging, onWidthChange],
+    [minWidth, targetRef, isDragging, onWidthChange, maxWidth],
   );
 
   const handleMouseUp = React.useCallback(() => {
@@ -66,15 +66,16 @@ export function ResizeDragHandle({
   }, [targetRef, isDragging, onWidthChangeEnd]);
 
   React.useEffect(() => {
-    if (ownRef.current) {
-      ownRef.current.addEventListener('mousedown', handleMouseDown);
+    const ownNode = ownRef.current;
+    if (ownNode) {
+      ownNode.addEventListener('mousedown', handleMouseDown);
       window.addEventListener('mousemove', handleMouseMove);
       window.addEventListener('mouseup', handleMouseUp);
       window.addEventListener('blur', handleMouseUp);
 
       return () => {
-        if (ownRef.current) {
-          ownRef.current.removeEventListener('mousedown', handleMouseDown);
+        if (ownNode) {
+          ownNode.removeEventListener('mousedown', handleMouseDown);
           window.removeEventListener('mousemove', handleMouseMove);
           window.removeEventListener('mouseup', handleMouseUp);
           window.removeEventListener('blur', handleMouseUp);

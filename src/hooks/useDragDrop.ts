@@ -80,7 +80,14 @@ export function useDragDrop({
         );
       }
     },
-    [columns, columnOrder, isColumnDragDisabled, onColumnsOrderChange],
+    [
+      columns,
+      columnOrder,
+      isColumnDragDisabled,
+      onColumnsOrderChange,
+      gridNode,
+      defaultColumnMinWidth,
+    ],
   );
 
   const trackCells = useTrackCells({
@@ -129,7 +136,15 @@ export function useDragDrop({
         trackCells(sortedColumns);
       }
     },
-    [columnOrder, gridNode, isColumnDragDisabled, trackCells, trackingCellRefs],
+    [
+      columnOrder,
+      columns,
+      defaultColumnMinWidth,
+      gridNode,
+      isColumnDragDisabled,
+      trackCells,
+      trackingCellRefs,
+    ],
   );
 
   const handleDragStart = React.useCallback(
