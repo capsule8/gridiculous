@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { Column } from '../types';
 import { spliceColumnOrder } from '../utils/spliceColumnOrder';
+
 interface ColumnLocation {
   index: number;
   key: string;

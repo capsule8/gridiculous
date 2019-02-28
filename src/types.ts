@@ -12,9 +12,10 @@ export interface Column {
   renderer?: (o: {
     datum: Datum;
     rowIndex: number;
-    value: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    value: any; // TODO: generics?
   }) => React.ReactNode;
 }
 
-// tslint:disable-next-line no-empty-interface
-export interface Datum {}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface Datum {} // TODO ?

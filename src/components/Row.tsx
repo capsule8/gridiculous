@@ -10,7 +10,7 @@ import { RowOverlay } from './RowOverlay';
 import styles from './Row.scss';
 
 export type RowClickHandler = (
-  e: React.MouseEvent,
+  e: React.MouseEvent | React.KeyboardEvent,
   o: { rowIndex: number; datum: Datum },
 ) => void;
 
@@ -59,6 +59,15 @@ export const Row = React.memo(
       [onClick, rowIndex, datum],
     );
 
+    const handleKeyDown = React.useCallback(
+      (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' && onClick) {
+          onClick(e, { rowIndex, datum });
+        }
+      },
+      [onClick],
+    );
+
     return (
       <div
         {...hoverBind}
@@ -67,6 +76,9 @@ export const Row = React.memo(
           [styles.isClickable]: Boolean(onClick),
         })}
         onClick={handleRowClick}
+        role="row"
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
       >
         {columns.map((column, columnIndex) => {
           const { key } = column;
@@ -87,8 +99,10 @@ export const Row = React.memo(
                 if (!cellRefs.current.has(key)) {
                   cellRefs.current.set(key, []);
                 }
-                const columnNodeArray = cellRefs.current.get(key)!;
-                columnNodeArray[rowIndex] = node;
+                const columnNodeArray = cellRefs.current.get(key);
+                if (columnNodeArray) {
+                  columnNodeArray[rowIndex] = node;
+                }
               }}
               columnIndex={columnIndex}
               rowIndex={rowIndex}
