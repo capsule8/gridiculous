@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import { isString } from 'lodash-es';
+import isString from 'lodash-es/isString';
 import * as React from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
