@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import { isString } from 'lodash-es';
 import * as React from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
@@ -28,6 +29,7 @@ export interface Props {
   ) => void;
   onColumnWidthChange?: (key: string, newWidth: number) => void;
   onRowClick?: RowClickHandler;
+  rowKey?: string | ((d: Datum) => string);
   rowOverlay?: RowOverlayChild;
   selectedRowIndexes?: Set<number>;
   virtualizationEnabled?: boolean;
@@ -47,6 +49,7 @@ export const GridWrapped = React.forwardRef(
       onColumnsOrderChange,
       onColumnWidthChange,
       onRowClick,
+      rowKey = 'id',
       rowOverlay,
       selectedRowIndexes,
       virtualizationEnabled,
@@ -90,6 +93,11 @@ export const GridWrapped = React.forwardRef(
       dataLength: data.length,
       isEnabled: Boolean(virtualizationEnabled),
     });
+
+    const rowKeyAccessor = React.useCallback(
+      (d: Datum) => (isString(rowKey) ? d[rowKey] : rowKey(d)),
+      [rowKey],
+    );
 
     return (
       <div className={styles.GridPane}>
@@ -141,7 +149,7 @@ export const GridWrapped = React.forwardRef(
                     isSelected={Boolean(
                       selectedRowIndexes && selectedRowIndexes.has(rowIndex),
                     )}
-                    key={rowIndex}
+                    key={rowKeyAccessor(datum)}
                     onClick={onRowClick}
                     rowIndex={rowIndex}
                     rowOverlay={rowOverlay}
