@@ -4,5 +4,6 @@ then
   echo -e '\nERROR: Built library is out of date. Run `yarn build` and commit.'
   exit 1
 else
+  echo -e '\nPASS: Built library matches committed.'
   exit 0
 fi
