@@ -12,6 +12,7 @@ export const Grid = React.memo(
       props: GridProps,
       externalRef: React.MutableRefObject<HTMLElement | null>,
     ) => {
+      console.log('this will generate new built files');
       const gridRef = React.useRef<HTMLElement | null>(null);
       return (
         <GridNodeContext.Provider value={gridRef.current}>
