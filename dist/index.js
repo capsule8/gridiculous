@@ -4207,6 +4207,7 @@ const GridWrapped = React.forwardRef(({ columns: rawColumns, data, defaultColumn
 
 const Grid = React.memo(React.forwardRef((props, externalRef) => {
     console.log('this will generate new built files');
+    console.log('more more more');
     const gridRef = React.useRef(null);
     return (React.createElement(GridNodeContext.Provider, { value: gridRef.current },
         React.createElement(GridWrapped, Object.assign({}, props, { ref: externalRef, gridRef: gridRef }))));
