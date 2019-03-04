@@ -1,7 +1,7 @@
-yarn build
+# `yarn install` builds post install so we don't need to `yarn build` here
 if [[ $(git status --short) ]]
 then
-  echo -e '\n\nERROR: Built library is out of date. Run `yarn build` and commit.'
+  echo -e '\nERROR: Built library is out of date. Run `yarn build` and commit.'
   exit 1
 else
   exit 0
