@@ -21,6 +21,7 @@ interface Props {
     onClick?: RowClickHandler;
     rowIndex: number;
     rowOverlay?: RowOverlayChild;
+    springProps: any;
 }
-export declare const Row: React.MemoExoticComponent<({ cellRefs, columns, columnVisibility, datum, draggingKey, isLastRow, isSelected, onClick, rowIndex, rowOverlay, }: Props) => JSX.Element>;
+export declare const Row: React.MemoExoticComponent<({ cellRefs, columns, columnVisibility, datum, draggingKey, isLastRow, isSelected, onClick, rowIndex, rowOverlay, springProps, }: Props) => JSX.Element>;
 export {};

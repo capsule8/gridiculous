@@ -12,10 +12,10 @@ export const Grid = React.memo(
       props: GridProps,
       externalRef: React.MutableRefObject<HTMLElement | null>,
     ) => {
-      const gridRef = React.useRef<HTMLElement | null>(null);
+      const [gridNode, setGridNode] = React.useState<HTMLElement | null>(null);
       return (
-        <GridNodeContext.Provider value={gridRef.current}>
-          <GridWrapped {...props} ref={externalRef} gridRef={gridRef} />
+        <GridNodeContext.Provider value={gridNode}>
+          <GridWrapped {...props} ref={externalRef} setGridNode={setGridNode} />
         </GridNodeContext.Provider>
       );
     },

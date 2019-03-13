@@ -92,26 +92,29 @@ export function App() {
     [columnOrder, columnWidths],
   );
 
+  const [data, setData] = React.useState<Datum[]>(generateFakeData(3));
+
+  const addRowToTop = React.useCallback(() => {
+    setData((data) => [...generateFakeData(1), ...data.slice(0, -1)]);
+  }, []);
+
   const [isGeneratingData, setIsGeneratingData] = React.useState(false);
-  const [data, setData] = React.useState<Datum[]>(generateFakeData(16));
-  const dataGenerationInterval = React.useRef<NodeJS.Timeout | null>(null);
   React.useEffect(() => {
+    let dataGenerationInterval: NodeJS.Timer | null = null;
     if (isGeneratingData) {
-      if (dataGenerationInterval.current) {
-        clearInterval(dataGenerationInterval.current);
+      if (dataGenerationInterval) {
+        clearInterval(dataGenerationInterval);
       }
 
-      dataGenerationInterval.current = setInterval(() => {
-        setData(generateFakeData(25));
-      }, 800);
+      dataGenerationInterval = setInterval(addRowToTop, 1000);
     }
 
     return () => {
-      if (dataGenerationInterval.current) {
-        clearInterval(dataGenerationInterval.current);
+      if (dataGenerationInterval) {
+        clearInterval(dataGenerationInterval);
       }
     };
-  }, [isGeneratingData]);
+  }, [addRowToTop, isGeneratingData]);
 
   const toggleGeneratingData = React.useCallback(() => {
     setIsGeneratingData(!isGeneratingData);
@@ -125,10 +128,15 @@ export function App() {
           <img className="App-logo" src={logo} alt="o" />
           us
         </div>
-        <button onClick={toggleGeneratingData} type="button">
-          Generate Data:
-          {isGeneratingData ? 'on' : 'off'}
-        </button>
+        <div className="App-controls">
+          <button onClick={toggleGeneratingData} type="button">
+            Generate data:
+            {isGeneratingData ? 'on' : 'off'}
+          </button>
+          <button onClick={addRowToTop} type="button">
+            Add row to top
+          </button>
+        </div>
         <div className="Grid-container">
           <Grid
             columns={columns}
@@ -137,7 +145,7 @@ export function App() {
             onColumnsOrderChange={handleColumnOrderChange}
             onColumnWidthChange={handleColumnWidthsChange}
             rowKey="id"
-            virtualizationEnabled={true}
+            virtualizationEnabled={false}
           />
         </div>
       </header>

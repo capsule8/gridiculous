@@ -8,6 +8,7 @@ interface Props {
     isDragging: boolean;
     isLastRow: boolean;
     rowIndex: number;
+    springProps: any;
 }
 export declare const Cell: React.MemoExoticComponent<React.ForwardRefExoticComponent<Props & React.RefAttributes<HTMLDivElement>>>;
 export {};

@@ -20,7 +20,7 @@ export interface Props {
     virtualizationEnabled?: boolean;
 }
 interface WrappedProps {
-    gridRef: React.MutableRefObject<HTMLElement | null>;
+    setGridNode: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
 }
 export declare const GridWrapped: React.ForwardRefExoticComponent<Props & WrappedProps & React.RefAttributes<HTMLElement>>;
 export {};

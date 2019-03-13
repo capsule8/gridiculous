@@ -1,7 +1,9 @@
 import classnames from 'classnames';
+// import difference from 'lodash-es/difference';
 import isString from 'lodash-es/isString';
 import * as React from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { useTransition } from 'react-spring';
 
 import { useColumnsIntersectionObserver } from '../hooks/useColumnIntersectionObserver';
 import { useDragDrop } from '../hooks/useDragDrop';
@@ -36,7 +38,7 @@ export interface Props {
 }
 
 interface WrappedProps {
-  gridRef: React.MutableRefObject<HTMLElement | null>;
+  setGridNode: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
 }
 
 export const GridWrapped = React.forwardRef(
@@ -45,13 +47,13 @@ export const GridWrapped = React.forwardRef(
       columns: rawColumns,
       data,
       defaultColumnMinWidth = 200,
-      gridRef,
       onColumnsOrderChange,
       onColumnWidthChange,
       onRowClick,
       rowKey,
       rowOverlay,
       selectedRowIndexes,
+      setGridNode,
       virtualizationEnabled,
     }: Props & WrappedProps,
     externalRef: React.MutableRefObject<HTMLElement | null>,
@@ -99,6 +101,45 @@ export const GridWrapped = React.forwardRef(
       [rowKey],
     );
 
+    const ids = data.map(rowKeyAccessor);
+    const prevIds = usePreviousValue(ids) || [];
+
+    const prevIndexes = ids.map((id) => prevIds.indexOf(id));
+
+    const transitionData = data.map((datum, index) => ({
+      datum,
+      index,
+      prevIndex: prevIndexes[index],
+    }));
+
+    const transitions = useTransition(transitionData, ids, {
+      from: ({ index }) => ({ opacity: 0, dy: -10, rowIndex: index + 2 }),
+      leave: { opacity: 0, dy: 10 },
+      enter: ({ index }) => ({
+        opacity: 1,
+        dy: 0,
+        rowIndex: index + 2,
+      }),
+      update: ({ index, prevIndex }) => {
+        console.log({ index, prevIndex });
+        if (index !== prevIndex) {
+          return {
+            opacity: 1,
+            dy: (index - prevIndex) * 72,
+            rowIndex: index + 2,
+          };
+        }
+
+        return {
+          opacity: 1,
+          dy: 0,
+          rowIndex: index + 2,
+        };
+      },
+    });
+
+    console.log({ transitions });
+
     return (
       <div className={styles.GridPane}>
         <DragDropContext
@@ -115,10 +156,10 @@ export const GridWrapped = React.forwardRef(
                 })}
                 ref={(node) => {
                   droppableInnerRef(node);
-                  gridRef.current = node;
                   if (externalRef) {
                     externalRef.current = node;
                   }
+                  setGridNode(node);
                 }}
                 {...droppableProps}
                 style={{
@@ -138,23 +179,26 @@ export const GridWrapped = React.forwardRef(
                   onColumnWidthChange={onColumnWidthChange}
                   isColumnDragDisabled={isColumnDragDisabled}
                 />
-                {data.map((datum, rowIndex) => (
-                  <Row
-                    cellRefs={cellRefs}
-                    columns={columns}
-                    columnVisibility={columnVisibility}
-                    datum={datum}
-                    draggingKey={draggingKey}
-                    isLastRow={rowIndex === data.length - 1}
-                    isSelected={Boolean(
-                      selectedRowIndexes && selectedRowIndexes.has(rowIndex),
-                    )}
-                    key={rowKeyAccessor(datum)}
-                    onClick={onRowClick}
-                    rowIndex={rowIndex}
-                    rowOverlay={rowOverlay}
-                  />
-                ))}
+                {transitions.map(
+                  ({ item: { datum }, props: springProps }, rowIndex) => (
+                    <Row
+                      cellRefs={cellRefs}
+                      columns={columns}
+                      columnVisibility={columnVisibility}
+                      datum={datum}
+                      draggingKey={draggingKey}
+                      isLastRow={rowIndex === data.length - 1}
+                      isSelected={Boolean(
+                        selectedRowIndexes && selectedRowIndexes.has(rowIndex),
+                      )}
+                      key={rowKeyAccessor(datum)}
+                      onClick={onRowClick}
+                      rowIndex={rowIndex}
+                      rowOverlay={rowOverlay}
+                      springProps={springProps}
+                    />
+                  ),
+                )}
                 {observerComponent}
               </div>
             )}
@@ -164,3 +208,13 @@ export const GridWrapped = React.forwardRef(
     );
   },
 );
+
+function usePreviousValue<T>(value: T) {
+  const ref = React.useRef<null | T>(null);
+
+  React.useEffect(() => {
+    ref.current = value;
+  });
+
+  return ref.current;
+}

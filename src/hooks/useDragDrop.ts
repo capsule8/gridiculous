@@ -23,6 +23,7 @@ export function useDragDrop({
   ) => void;
 }) {
   const gridNode = React.useContext(GridNodeContext);
+
   const [draggingKey, setDraggingKey] = React.useState<string | null>(null);
 
   const columnOrder = React.useMemo(() => columns.map(({ key }) => key), [
@@ -97,44 +98,40 @@ export function useDragDrop({
 
   const handleDragUpdate = React.useCallback(
     ({ source, destination }: DragUpdate) => {
-      if (isColumnDragDisabled) {
+      if (isColumnDragDisabled || !destination || !gridNode) {
         return;
       }
 
-      if (destination && gridNode) {
-        const newColumnOrder = spliceColumnOrder(
-          columnOrder,
-          source.index,
-          destination.index,
-        );
+      const newColumnOrder = spliceColumnOrder(
+        columnOrder,
+        source.index,
+        destination.index,
+      );
 
-        const sortedColumns = sortColumns(columns, newColumnOrder);
+      const sortedColumns = sortColumns(columns, newColumnOrder);
 
-        if (gridNode) {
-          gridNode.style.gridTemplateColumns = columnsToGridTemplate(
-            sortedColumns,
-            defaultColumnMinWidth,
-          );
+      gridNode.style.gridTemplateColumns = columnsToGridTemplate(
+        sortedColumns,
+        defaultColumnMinWidth,
+      );
+
+      sortedColumns.forEach(({ key }, i) => {
+        const gridColumn = (i + 1).toString();
+
+        const nodesInColumn = cellRefs.current.get(key);
+        if (nodesInColumn) {
+          nodesInColumn.forEach((cellNode) => {
+            cellNode.style.gridColumn = gridColumn;
+          });
         }
 
-        sortedColumns.forEach(({ key }, i) => {
-          const gridColumn = (i + 1).toString();
+        const trackingCell = trackingCellRefs.current.get(key);
+        if (trackingCell) {
+          trackingCell.style.gridColumn = gridColumn;
+        }
+      });
 
-          const nodesInColumn = cellRefs.current.get(key);
-          if (nodesInColumn) {
-            nodesInColumn.forEach((cellNode) => {
-              cellNode.style.gridColumn = gridColumn;
-            });
-          }
-
-          const trackingCell = trackingCellRefs.current.get(key);
-          if (trackingCell) {
-            trackingCell.style.gridColumn = gridColumn;
-          }
-        });
-
-        trackCells(sortedColumns);
-      }
+      trackCells(sortedColumns);
     },
     [
       columnOrder,

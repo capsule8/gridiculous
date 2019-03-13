@@ -1,6 +1,7 @@
 import classnames from 'classnames';
 import get from 'lodash-es/get';
 import * as React from 'react';
+import { animated } from 'react-spring';
 
 import { Column, Datum } from '../types';
 import styles from './Cell.scss';
@@ -13,6 +14,7 @@ interface Props {
   isDragging: boolean;
   isLastRow: boolean;
   rowIndex: number;
+  springProps: any;
 }
 
 export const Cell = React.memo(
@@ -26,6 +28,7 @@ export const Cell = React.memo(
         isDragging,
         isLastRow,
         rowIndex,
+        springProps: { dy, rowIndex: animatedRowIndex, ...restSpringProps },
       }: Props,
       ref: React.RefObject<HTMLDivElement>,
     ) => {
@@ -43,7 +46,7 @@ export const Cell = React.memo(
       }, [datum, isColumnVisible, renderer, key, rowIndex]);
 
       return (
-        <div
+        <animated.div
           className={classnames(styles.Cell, {
             [styles.isDragging]: isDragging,
             [styles.isLastRow]: isLastRow,
@@ -51,11 +54,15 @@ export const Cell = React.memo(
           ref={ref}
           style={{
             gridColumn: columnIndex + 1,
-            gridRow: rowIndex + 2,
+            gridRow: animatedRowIndex.interpolate(
+              (i: number) => `${Math.floor(i)}`,
+            ),
+            ...restSpringProps,
+            transform: dy.interpolate((y: any) => `translateY(${y}px)`),
           }}
         >
           <div className={styles.Content}>{value}</div>
-        </div>
+        </animated.div>
       );
     },
   ),

@@ -33,6 +33,7 @@ interface Props {
   onClick?: RowClickHandler;
   rowIndex: number;
   rowOverlay?: RowOverlayChild;
+  springProps: any;
 }
 
 export const Row = React.memo(
@@ -47,6 +48,7 @@ export const Row = React.memo(
     onClick,
     rowIndex,
     rowOverlay,
+    springProps,
   }: Props) => {
     const [isHovering, hoverBind] = useHoverState();
 
@@ -106,6 +108,7 @@ export const Row = React.memo(
               }}
               columnIndex={columnIndex}
               rowIndex={rowIndex}
+              springProps={springProps}
             />
           );
         })}
