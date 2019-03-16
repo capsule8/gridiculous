@@ -113,7 +113,11 @@ export const GridWrapped = React.forwardRef(
     }));
 
     const transitions = useTransition(transitionData, ids, {
-      from: ({ index }) => ({ opacity: 0, dy: -10, rowIndex: index + 2 }),
+      from: ({ index }) => ({
+        opacity: 0,
+        dy: -30,
+        rowIndex: index + 2,
+      }),
       leave: { opacity: 0, dy: 10 },
       enter: ({ index }) => ({
         opacity: 1,
@@ -121,18 +125,9 @@ export const GridWrapped = React.forwardRef(
         rowIndex: index + 2,
       }),
       update: ({ index, prevIndex }) => {
-        console.log({ index, prevIndex });
-        if (index !== prevIndex) {
-          return {
-            opacity: 1,
-            dy: (index - prevIndex) * 72,
-            rowIndex: index + 2,
-          };
-        }
-
         return {
           opacity: 1,
-          dy: 0,
+          dy: (index - prevIndex) * 72,
           rowIndex: index + 2,
         };
       },

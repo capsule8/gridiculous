@@ -92,7 +92,7 @@ export function App() {
     [columnOrder, columnWidths],
   );
 
-  const [data, setData] = React.useState<Datum[]>(generateFakeData(3));
+  const [data, setData] = React.useState<Datum[]>(generateFakeData(5));
 
   const addRowToTop = React.useCallback(() => {
     setData((data) => [...generateFakeData(1), ...data.slice(0, -1)]);

@@ -58,7 +58,7 @@ export const Cell = React.memo(
               (i: number) => `${Math.floor(i)}`,
             ),
             ...restSpringProps,
-            transform: dy.interpolate((y: any) => `translateY(${y}px)`),
+            transform: dy.interpolate((y: number) => `translateY(${y}px)`),
           }}
         >
           <div className={styles.Content}>{value}</div>
