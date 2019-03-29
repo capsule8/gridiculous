@@ -1,4 +1,4 @@
-import typescript from 'rollup-plugin-typescript2';
+import babel from 'rollup-plugin-babel';
 import bundleSize from 'rollup-plugin-bundle-size';
 import commonjs from 'rollup-plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
@@ -9,6 +9,8 @@ import url from 'rollup-plugin-url';
 import svgr from '@svgr/rollup';
 
 import pkg from './package.json';
+
+const extensions = ['.ts', '.tsx'];
 
 export default {
   input: 'src/index.ts',
@@ -27,20 +29,15 @@ export default {
     },
   ],
   plugins: [
+    resolve({ extensions }),
+    commonjs(),
     external(['react', 'react-dom', 'react-beautiful-dnd']),
     postcss({
       modules: true,
     }),
     url(),
     svgr(),
-    resolve(),
-    typescript({
-      rollupCommonJSResolveHack: true,
-      clean: true,
-    }),
-    commonjs({
-      include: 'node_modules/**',
-    }),
+    babel({ extensions, include: ['src/**/*'] }),
     bundleSize(),
   ],
 };

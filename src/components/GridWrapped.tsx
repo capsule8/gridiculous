@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-// import difference from 'lodash-es/difference';
+import difference from 'lodash-es/difference';
 import isString from 'lodash-es/isString';
 import * as React from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
@@ -111,6 +111,9 @@ export const GridWrapped = React.forwardRef(
       index,
       prevIndex: prevIndexes[index],
     }));
+
+    const newIds = difference(ids, prevIds);
+    const removedIds = difference(prevIds, ids);
 
     const transitions = useTransition(transitionData, ids, {
       from: ({ index }) => ({

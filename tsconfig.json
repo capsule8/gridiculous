@@ -1,14 +1,12 @@
 {
   "compilerOptions": {
-    "composite": true,
-    "outDir": "build",
-    "module": "esnext",
+    "outDir": "dist",
+    "module": "commonjs",
     "target": "es6",
     "lib": ["dom", "esnext"],
     "sourceMap": true,
     "allowJs": false,
     "jsx": "react",
-    "declaration": true,
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
@@ -20,8 +18,9 @@
     "noUnusedParameters": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "isolatedModules": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "build", "dist", "example", "rollup.config.js"]
+  "exclude": ["node_modules", "dist", "example", "rollup.config.js"]
 }
