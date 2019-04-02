@@ -1,9 +1,9 @@
 import classnames from 'classnames';
-// import difference from 'lodash-es/difference';
+import difference from 'lodash-es/difference';
 import isString from 'lodash-es/isString';
 import * as React from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import { useTransition } from 'react-spring';
+import { useSprings } from 'react-spring';
 
 import { useColumnsIntersectionObserver } from '../hooks/useColumnIntersectionObserver';
 import { useDragDrop } from '../hooks/useDragDrop';
@@ -104,36 +104,25 @@ export const GridWrapped = React.forwardRef(
     const ids = data.map(rowKeyAccessor);
     const prevIds = usePreviousValue(ids) || [];
 
-    const prevIndexes = ids.map((id) => prevIds.indexOf(id));
+    // const indexes = ids.map((id, index) => index);
+    // const prevIndexes = ids.map((id) => prevIds.indexOf(id));
 
-    const transitionData = data.map((datum, index) => ({
-      datum,
-      index,
-      prevIndex: prevIndexes[index],
-    }));
+    // const transitionData = data.map((datum, index) => ({
+    //   datum,
+    //   index,
+    //   prevIndex: prevIndexes[index],
+    // }));
 
-    const transitions = useTransition(transitionData, ids, {
-      from: ({ index }) => ({
-        opacity: 0,
-        dy: -30,
-        rowIndex: index + 2,
-      }),
-      leave: { opacity: 0, dy: 10 },
-      enter: ({ index }) => ({
-        opacity: 1,
-        dy: 0,
-        rowIndex: index + 2,
-      }),
-      update: ({ index, prevIndex }) => {
-        return {
-          opacity: 1,
-          dy: (index - prevIndex) * 72,
-          rowIndex: index + 2,
-        };
-      },
-    });
+    const addedIds = difference(prevIds, ids);
+    const removedIds = difference(ids, prevIds);
+    console.log({ addedIds, removedIds });
 
-    console.log({ transitions });
+    const [springs, set] = useSprings(
+      Math.max(ids.length, prevIds.length),
+      (_index) => ({ opacity: 1 }),
+    );
+
+    console.log({ springs, set });
 
     return (
       <div className={styles.GridPane}>
@@ -174,7 +163,7 @@ export const GridWrapped = React.forwardRef(
                   onColumnWidthChange={onColumnWidthChange}
                   isColumnDragDisabled={isColumnDragDisabled}
                 />
-                {transitions.map(
+                {/* {springs.map(
                   ({ item: { datum }, props: springProps }, rowIndex) => (
                     <Row
                       cellRefs={cellRefs}
@@ -193,7 +182,7 @@ export const GridWrapped = React.forwardRef(
                       springProps={springProps}
                     />
                   ),
-                )}
+                )} */}
                 {observerComponent}
               </div>
             )}

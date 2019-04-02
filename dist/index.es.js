@@ -1,4 +1,4 @@
-import React__default, { createContext, useRef, useImperativeHandle, useEffect, useState, useCallback, forwardRef, createElement, Fragment, useContext, useMemo, memo } from 'react';
+import React__default, { createContext, useRef, useMemo, useImperativeHandle, useEffect, forwardRef, useCallback, useState, createElement, Fragment, useContext, memo } from 'react';
 import { Draggable, DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 /*! *****************************************************************************
@@ -2806,7 +2806,6 @@ var pick = flatRest(function(object, paths) {
 });
 
 const GridNodeContext = createContext(null);
-//# sourceMappingURL=context.js.map
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -2859,6 +2858,239 @@ var classnames = createCommonjsModule(function (module) {
 		window.classNames = classNames;
 	}
 }());
+});
+
+/**
+ * The base implementation of `_.findIndex` and `_.findLastIndex` without
+ * support for iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {Function} predicate The function invoked per iteration.
+ * @param {number} fromIndex The index to search from.
+ * @param {boolean} [fromRight] Specify iterating from right to left.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseFindIndex(array, predicate, fromIndex, fromRight) {
+  var length = array.length,
+      index = fromIndex + (fromRight ? 1 : -1);
+
+  while ((fromRight ? index-- : ++index < length)) {
+    if (predicate(array[index], index, array)) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+/**
+ * The base implementation of `_.isNaN` without support for number objects.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
+ */
+function baseIsNaN(value) {
+  return value !== value;
+}
+
+/**
+ * A specialized version of `_.indexOf` which performs strict equality
+ * comparisons of values, i.e. `===`.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} value The value to search for.
+ * @param {number} fromIndex The index to search from.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function strictIndexOf(array, value, fromIndex) {
+  var index = fromIndex - 1,
+      length = array.length;
+
+  while (++index < length) {
+    if (array[index] === value) {
+      return index;
+    }
+  }
+  return -1;
+}
+
+/**
+ * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} value The value to search for.
+ * @param {number} fromIndex The index to search from.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function baseIndexOf(array, value, fromIndex) {
+  return value === value
+    ? strictIndexOf(array, value, fromIndex)
+    : baseFindIndex(array, baseIsNaN, fromIndex);
+}
+
+/**
+ * A specialized version of `_.includes` for arrays without support for
+ * specifying an index to search from.
+ *
+ * @private
+ * @param {Array} [array] The array to inspect.
+ * @param {*} target The value to search for.
+ * @returns {boolean} Returns `true` if `target` is found, else `false`.
+ */
+function arrayIncludes(array, value) {
+  var length = array == null ? 0 : array.length;
+  return !!length && baseIndexOf(array, value, 0) > -1;
+}
+
+/**
+ * This function is like `arrayIncludes` except that it accepts a comparator.
+ *
+ * @private
+ * @param {Array} [array] The array to inspect.
+ * @param {*} target The value to search for.
+ * @param {Function} comparator The comparator invoked per element.
+ * @returns {boolean} Returns `true` if `target` is found, else `false`.
+ */
+function arrayIncludesWith(array, value, comparator) {
+  var index = -1,
+      length = array == null ? 0 : array.length;
+
+  while (++index < length) {
+    if (comparator(value, array[index])) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/** Used as the size to enable large array optimizations. */
+var LARGE_ARRAY_SIZE$1 = 200;
+
+/**
+ * The base implementation of methods like `_.difference` without support
+ * for excluding multiple arrays or iteratee shorthands.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {Array} values The values to exclude.
+ * @param {Function} [iteratee] The iteratee invoked per element.
+ * @param {Function} [comparator] The comparator invoked per element.
+ * @returns {Array} Returns the new array of filtered values.
+ */
+function baseDifference(array, values, iteratee, comparator) {
+  var index = -1,
+      includes = arrayIncludes,
+      isCommon = true,
+      length = array.length,
+      result = [],
+      valuesLength = values.length;
+
+  if (!length) {
+    return result;
+  }
+  if (iteratee) {
+    values = arrayMap(values, baseUnary(iteratee));
+  }
+  if (comparator) {
+    includes = arrayIncludesWith;
+    isCommon = false;
+  }
+  else if (values.length >= LARGE_ARRAY_SIZE$1) {
+    includes = cacheHas;
+    isCommon = false;
+    values = new SetCache(values);
+  }
+  outer:
+  while (++index < length) {
+    var value = array[index],
+        computed = iteratee == null ? value : iteratee(value);
+
+    value = (comparator || value !== 0) ? value : 0;
+    if (isCommon && computed === computed) {
+      var valuesIndex = valuesLength;
+      while (valuesIndex--) {
+        if (values[valuesIndex] === computed) {
+          continue outer;
+        }
+      }
+      result.push(value);
+    }
+    else if (!includes(values, computed, comparator)) {
+      result.push(value);
+    }
+  }
+  return result;
+}
+
+/**
+ * The base implementation of `_.rest` which doesn't validate or coerce arguments.
+ *
+ * @private
+ * @param {Function} func The function to apply a rest parameter to.
+ * @param {number} [start=func.length-1] The start position of the rest parameter.
+ * @returns {Function} Returns the new function.
+ */
+function baseRest(func, start) {
+  return setToString(overRest(func, start, identity), func + '');
+}
+
+/**
+ * This method is like `_.isArrayLike` except that it also checks if `value`
+ * is an object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array-like object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArrayLikeObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLikeObject(document.body.children);
+ * // => true
+ *
+ * _.isArrayLikeObject('abc');
+ * // => false
+ *
+ * _.isArrayLikeObject(_.noop);
+ * // => false
+ */
+function isArrayLikeObject(value) {
+  return isObjectLike(value) && isArrayLike(value);
+}
+
+/**
+ * Creates an array of `array` values not included in the other given arrays
+ * using [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * for equality comparisons. The order and references of result values are
+ * determined by the first array.
+ *
+ * **Note:** Unlike `_.pullAll`, this method returns a new array.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Array
+ * @param {Array} array The array to inspect.
+ * @param {...Array} [values] The values to exclude.
+ * @returns {Array} Returns the new array of filtered values.
+ * @see _.without, _.xor
+ * @example
+ *
+ * _.difference([2, 1], [2, 3]);
+ * // => [1]
+ */
+var difference = baseRest(function(array, values) {
+  return isArrayLikeObject(array)
+    ? baseDifference(array, baseFlatten(values, 1, isArrayLikeObject, true))
+    : [];
 });
 
 /** `Object#toString` result references. */
@@ -3857,305 +4089,63 @@ class Controller {
 }
 
 /** API
- * const transitions = useTransition(items, itemKeys, { ... })
- * const [transitions, update] = useTransition(items, itemKeys, () => ({ ... }))
+ * const props = useSprings(number, [{ ... }, { ... }, ...])
+ * const [props, set] = useSprings(number, (i, controller) => ({ ... }))
  */
 
-let guid = 0;
-const ENTER = 'enter';
-const LEAVE = 'leave';
-const UPDATE = 'update';
-
-const mapKeys = (items, keys) => (typeof keys === 'function' ? items.map(keys) : toArray(keys)).map(String);
-
-const get = props => {
-  let items = props.items,
-      _props$keys = props.keys,
-      keys = _props$keys === void 0 ? item => item : _props$keys,
-      rest = _objectWithoutPropertiesLoose(props, ["items", "keys"]);
-
-  items = toArray(items !== void 0 ? items : null);
-  return _extends({
-    items,
-    keys: mapKeys(items, keys)
-  }, rest);
-};
-
-function useTransition(input, keyTransform, config) {
-  const props = _extends({
-    items: input,
-    keys: keyTransform || (i => i)
-  }, config);
-
-  const _get = get(props),
-        _get$lazy = _get.lazy,
-        lazy = _get$lazy === void 0 ? false : _get$lazy,
-        _get$unique = _get.unique,
-        _get$reset = _get.reset,
-        reset = _get$reset === void 0 ? false : _get$reset,
-        enter = _get.enter,
-        leave = _get.leave,
-        update = _get.update,
-        onDestroyed = _get.onDestroyed,
-        keys = _get.keys,
-        items = _get.items,
-        onFrame = _get.onFrame,
-        _onRest = _get.onRest,
-        onStart = _get.onStart,
-        ref = _get.ref,
-        extra = _objectWithoutPropertiesLoose(_get, ["lazy", "unique", "reset", "enter", "leave", "update", "onDestroyed", "keys", "items", "onFrame", "onRest", "onStart", "ref"]);
-
-  const forceUpdate = useForceUpdate();
+const useSprings = (length, props) => {
   const mounted = useRef(false);
-  const state = useRef({
-    mounted: false,
-    first: true,
-    deleted: [],
-    current: {},
-    transitions: [],
-    prevProps: {},
-    paused: !!props.ref,
-    instances: !mounted.current && new Map(),
-    forceUpdate
-  });
-  useImperativeHandle(props.ref, () => ({
-    start: () => Promise.all(Array.from(state.current.instances).map((_ref) => {
-      let c = _ref[1];
-      return new Promise(r => c.start(r));
-    })),
-    stop: finished => Array.from(state.current.instances).forEach((_ref2) => {
-      let c = _ref2[1];
-      return c.stop(finished);
-    }),
+  const ctrl = useRef();
+  const isFn = is.fun(props); // The controller maintains the animation values, starts and stops animations
+
+  const _useMemo = useMemo(() => {
+    // Remove old controllers
+    if (ctrl.current) {
+      ctrl.current.map(c => c.destroy());
+      ctrl.current = undefined;
+    }
+
+    let ref;
+    return [new Array(length).fill().map((_, i) => {
+      const ctrl = new Controller();
+      const newProps = isFn ? callProp(props, i, ctrl) : props[i];
+      if (i === 0) ref = newProps.ref;
+      ctrl.update(newProps);
+      if (!ref) ctrl.start();
+      return ctrl;
+    }), ref];
+  }, [length]),
+        controllers = _useMemo[0],
+        ref = _useMemo[1];
+
+  ctrl.current = controllers; // The hooks reference api gets defined here ...
+
+  const api = useImperativeHandle(ref, () => ({
+    start: () => Promise.all(ctrl.current.map(c => new Promise(r => c.start(r)))),
+    stop: finished => ctrl.current.forEach(c => c.stop(finished)),
 
     get controllers() {
-      return Array.from(state.current.instances).map((_ref3) => {
-        let c = _ref3[1];
-        return c;
-      });
+      return ctrl.current;
     }
 
-  })); // Update state
+  })); // This function updates the controllers
 
-  state.current = diffItems(state.current, props);
-
-  if (state.current.changed) {
-    // Update state
-    state.current.transitions.forEach(transition => {
-      const slot = transition.slot,
-            from = transition.from,
-            to = transition.to,
-            config = transition.config,
-            trail = transition.trail,
-            key = transition.key,
-            item = transition.item;
-      if (!state.current.instances.has(key)) state.current.instances.set(key, new Controller()); // update the map object
-
-      const ctrl = state.current.instances.get(key);
-
-      const newProps = _extends({}, extra, {
-        to,
-        from,
-        config,
-        ref,
-        onRest: values => {
-          if (state.current.mounted) {
-            if (transition.destroyed) {
-              // If no ref is given delete destroyed items immediately
-              if (!ref && !lazy) cleanUp(state, key);
-              if (onDestroyed) onDestroyed(item);
-            } // A transition comes to rest once all its springs conclude
-
-
-            const curInstances = Array.from(state.current.instances);
-            const active = curInstances.some((_ref4) => {
-              let c = _ref4[1];
-              return !c.idle;
-            });
-            if (!active && (ref || lazy) && state.current.deleted.length > 0) cleanUp(state);
-            if (_onRest) _onRest(item, slot, values);
-          }
-        },
-        onStart: onStart && (() => onStart(item, slot)),
-        onFrame: onFrame && (values => onFrame(item, slot, values)),
-        delay: trail,
-        reset: reset && slot === ENTER // Update controller
-
-      });
-
-      ctrl.update(newProps);
-      if (!state.current.paused) ctrl.start();
-    });
-  }
+  const updateCtrl = useMemo(() => updateProps => ctrl.current.map((c, i) => {
+    c.update(isFn ? callProp(updateProps, i, c) : updateProps[i]);
+    if (!ref) c.start();
+  }), [length]); // Update controller if props aren't functional
 
   useEffect(() => {
-    state.current.mounted = mounted.current = true;
-    return () => {
-      state.current.mounted = mounted.current = false;
-      Array.from(state.current.instances).map((_ref5) => {
-        let c = _ref5[1];
-        return c.destroy();
-      });
-      state.current.instances.clear();
-    };
-  }, []);
-  return state.current.transitions.map((_ref6) => {
-    let item = _ref6.item,
-        slot = _ref6.slot,
-        key = _ref6.key;
-    return {
-      item,
-      key,
-      state: slot,
-      props: state.current.instances.get(key).getValues()
-    };
-  });
-}
+    if (mounted.current) {
+      if (!isFn) updateCtrl(props);
+    } else if (!ref) ctrl.current.forEach(c => c.start());
+  }); // Update mounted flag and destroy controller on unmount
 
-function cleanUp(state, filterKey) {
-  const deleted = state.current.deleted;
+  useEffect(() => (mounted.current = true, () => ctrl.current.forEach(c => c.destroy())), []); // Return animated props, or, anim-props + the update-setter above
 
-  for (let _ref7 of deleted) {
-    let key = _ref7.key;
-
-    const filter = t => t.key !== key;
-
-    if (is.und(filterKey) || filterKey === key) {
-      state.current.instances.delete(key);
-      state.current.transitions = state.current.transitions.filter(filter);
-      state.current.deleted = state.current.deleted.filter(filter);
-    }
-  }
-
-  state.current.forceUpdate();
-}
-
-function diffItems(_ref8, props) {
-  let first = _ref8.first,
-      prevProps = _ref8.prevProps,
-      state = _objectWithoutPropertiesLoose(_ref8, ["first", "prevProps"]);
-
-  let _get2 = get(props),
-      items = _get2.items,
-      keys = _get2.keys,
-      initial = _get2.initial,
-      from = _get2.from,
-      enter = _get2.enter,
-      leave = _get2.leave,
-      update = _get2.update,
-      _get2$trail = _get2.trail,
-      trail = _get2$trail === void 0 ? 0 : _get2$trail,
-      unique = _get2.unique,
-      config = _get2.config,
-      _get2$order = _get2.order,
-      order = _get2$order === void 0 ? [ENTER, LEAVE, UPDATE] : _get2$order;
-
-  let _get3 = get(prevProps),
-      _keys = _get3.keys,
-      _items = _get3.items;
-
-  let current = _extends({}, state.current);
-
-  let deleted = [...state.deleted]; // Compare next keys with current keys
-
-  let currentKeys = Object.keys(current);
-  let currentSet = new Set(currentKeys);
-  let nextSet = new Set(keys);
-  let added = keys.filter(item => !currentSet.has(item));
-  let removed = state.transitions.filter(item => !item.destroyed && !nextSet.has(item.originalKey)).map(i => i.originalKey);
-  let updated = keys.filter(item => currentSet.has(item));
-  let delay = -trail;
-
-  while (order.length) {
-    const changeType = order.shift();
-
-    switch (changeType) {
-      case ENTER:
-        {
-          added.forEach((key, index) => {
-            // In unique mode, remove fading out transitions if their key comes in again
-            if (unique && deleted.find(d => d.originalKey === key)) deleted = deleted.filter(t => t.originalKey !== key);
-            const keyIndex = keys.indexOf(key);
-            const item = items[keyIndex];
-            const slot = first && initial !== void 0 ? 'initial' : ENTER;
-            current[key] = {
-              slot,
-              originalKey: key,
-              key: unique ? String(key) : guid++,
-              item,
-              trail: delay = delay + trail,
-              config: callProp(config, item, slot),
-              from: callProp(first ? initial !== void 0 ? initial || {} : from : from, item),
-              to: callProp(enter, item)
-            };
-          });
-          break;
-        }
-
-      case LEAVE:
-        {
-          removed.forEach(key => {
-            const keyIndex = _keys.indexOf(key);
-
-            const item = _items[keyIndex];
-            const slot = LEAVE;
-            deleted.unshift(_extends({}, current[key], {
-              slot,
-              destroyed: true,
-              left: _keys[Math.max(0, keyIndex - 1)],
-              right: _keys[Math.min(_keys.length, keyIndex + 1)],
-              trail: delay = delay + trail,
-              config: callProp(config, item, slot),
-              to: callProp(leave, item)
-            }));
-            delete current[key];
-          });
-          break;
-        }
-
-      case UPDATE:
-        {
-          updated.forEach(key => {
-            const keyIndex = keys.indexOf(key);
-            const item = items[keyIndex];
-            const slot = UPDATE;
-            current[key] = _extends({}, current[key], {
-              item,
-              slot,
-              trail: delay = delay + trail,
-              config: callProp(config, item, slot),
-              to: callProp(update, item)
-            });
-          });
-          break;
-        }
-    }
-  }
-
-  let out = keys.map(key => current[key]); // This tries to restore order for deleted items by finding their last known siblings
-  // only using the left sibling to keep order placement consistent for all deleted items
-
-  deleted.forEach((_ref9) => {
-    let left = _ref9.left,
-        right = _ref9.right,
-        item = _objectWithoutPropertiesLoose(_ref9, ["left", "right"]);
-
-    let pos; // Was it the element on the left, if yes, move there ...
-
-    if ((pos = out.findIndex(t => t.originalKey === left)) !== -1) pos += 1; // And if nothing else helps, move it to the start ¯\_(ツ)_/¯
-
-    pos = Math.max(0, pos);
-    out = [...out.slice(0, pos), item, ...out.slice(pos)];
-  });
-  return _extends({}, state, {
-    changed: added.length || removed.length || updated.length,
-    first: first && added.length === 0,
-    transitions: out,
-    current,
-    deleted,
-    prevProps: props
-  });
-}
+  const propValues = ctrl.current.map(c => c.getValues());
+  return isFn ? [propValues, updateCtrl, finished => ctrl.current.forEach(c => c.pause(finished))] : propValues;
+};
 
 class AnimatedStyle extends AnimatedObject {
   constructor(style) {
@@ -4675,7 +4665,6 @@ function useIntersectionObserver({ root, rootMargin, target, isEnabled, }) {
     }, [isEnabled, root, rootMargin, target]);
     return isIntersecting;
 }
-//# sourceMappingURL=useIntersectionObserver.js.map
 
 function ColumnIntersectionObserver({ columnIndex, dataLength, onIsIntersectingChange, isEnabled, }) {
     const gridNode = useContext(GridNodeContext);
@@ -4719,7 +4708,6 @@ function useColumnsIntersectionObserver({ columns, dataLength, isEnabled, }) {
         createElement(Fragment, null, columnVisibility.map((_c, columnIndex) => (createElement(ColumnIntersectionObserver, { columnIndex: columnIndex, dataLength: dataLength, isEnabled: isEnabled, key: columns[columnIndex].key, onIsIntersectingChange: handleColumnIntersectingChange })))),
     ];
 }
-//# sourceMappingURL=useColumnIntersectionObserver.js.map
 
 /** `Object#toString` result references. */
 var numberTag$2 = '[object Number]';
@@ -4776,7 +4764,6 @@ function columnsToGridTemplate(columns, defaultColumnMinWidth, override) {
     })
         .join(' ');
 }
-//# sourceMappingURL=columnsToGridTemplate.js.map
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG$4 = 1,
@@ -4929,7 +4916,7 @@ function baseMatches(source) {
  * _.get(object, 'a.b.c', 'default');
  * // => 'default'
  */
-function get$1(object, path, defaultValue) {
+function get(object, path, defaultValue) {
   var result = object == null ? undefined : baseGet(object, path);
   return result === undefined ? defaultValue : result;
 }
@@ -4951,7 +4938,7 @@ function baseMatchesProperty(path, srcValue) {
     return matchesStrictComparable(toKey(path), srcValue);
   }
   return function(object) {
-    var objValue = get$1(object, path);
+    var objValue = get(object, path);
     return (objValue === undefined && objValue === srcValue)
       ? hasIn(object, path)
       : baseIsEqual(srcValue, objValue, COMPARE_PARTIAL_FLAG$5 | COMPARE_UNORDERED_FLAG$3);
@@ -5265,18 +5252,6 @@ function baseOrderBy(collection, iteratees, orders) {
 }
 
 /**
- * The base implementation of `_.rest` which doesn't validate or coerce arguments.
- *
- * @private
- * @param {Function} func The function to apply a rest parameter to.
- * @param {number} [start=func.length-1] The start position of the rest parameter.
- * @returns {Function} Returns the new function.
- */
-function baseRest(func, start) {
-  return setToString(overRest(func, start, identity), func + '');
-}
-
-/**
  * Checks if the given arguments are from an iteratee call.
  *
  * @private
@@ -5345,7 +5320,6 @@ var sortBy = baseRest(function(collection, iteratees) {
 function sortColumns(columns, columnOrder) {
     return sortBy(columns, ({ key }) => columnOrder.indexOf(key));
 }
-//# sourceMappingURL=sortColumns.js.map
 
 function spliceColumnOrder(columnOrder, sourceIndex, destinationIndex) {
     const newColumnOrder = [...columnOrder];
@@ -5353,7 +5327,6 @@ function spliceColumnOrder(columnOrder, sourceIndex, destinationIndex) {
     newColumnOrder.splice(destinationIndex, 0, removed);
     return newColumnOrder;
 }
-//# sourceMappingURL=spliceColumnOrder.js.map
 
 function useTrackCells({ headerCellRefs, trackingCellRefs, }) {
     return useCallback((columns) => {
@@ -5369,7 +5342,6 @@ function useTrackCells({ headerCellRefs, trackingCellRefs, }) {
         });
     }, [headerCellRefs, trackingCellRefs]);
 }
-//# sourceMappingURL=useTrackCells.js.map
 
 function useDragDrop({ columns, defaultColumnMinWidth, isColumnDragDisabled, onColumnsOrderChange, }) {
     const gridNode = useContext(GridNodeContext);
@@ -5468,7 +5440,6 @@ function useDragDrop({ columns, defaultColumnMinWidth, isColumnDragDisabled, onC
         trackingCellRefs,
     };
 }
-//# sourceMappingURL=useDragDrop.js.map
 
 function usePaneScrollState() {
     const gridNode = useContext(GridNodeContext);
@@ -5511,7 +5482,6 @@ function usePaneScrollState() {
     }, [gridNode, checkScroll]);
     return { canScrollLeft, canScrollRight };
 }
-//# sourceMappingURL=usePaneScrollState.js.map
 
 function applyColumnWidthDefaults(column) {
     const { defaultWidth, width } = column;
@@ -5541,7 +5511,6 @@ function applyColumnMinWidth(column) {
     }
     return column;
 }
-//# sourceMappingURL=columnWidthHelpers.js.map
 
 /**
  * Checks if `value` is `undefined`.
@@ -5651,7 +5620,6 @@ function ResizeDragHandle({ isHidden, maxWidth = 1000, minWidth = 50, onWidthCha
         }) },
         createElement("div", { className: styles.ExtraHandle })));
 }
-//# sourceMappingURL=ResizeDragHandle.js.map
 
 var css$1 = ".HeaderCell_HeaderCell__lVi2L {\n  box-sizing: border-box;\n  display: flex;\n  align-items: center;\n  position: relative;\n  grid-row: 1;\n  height: 56px;\n  border: 1px solid rgba(0, 0, 0, 0);\n  opacity: 1;\n  transition: 150 opacity ease-out, 250ms box-shadow ease-out; }\n  .HeaderCell_HeaderCell__lVi2L:hover {\n    transition: 250ms box-shadow ease-out;\n    border-right: 1px solid #e6e6e6;\n    border-left: 1px solid #e6e6e6; }\n  .HeaderCell_HeaderCell__lVi2L.HeaderCell_isAnyDragging__3KJwT:not(.HeaderCell_notResizable__2RBMh) {\n    background-color: white;\n    border-right: 1px solid #e6e6e6; }\n  .HeaderCell_HeaderCell__lVi2L.HeaderCell_notResizable__2RBMh:hover {\n    border: 1px solid rgba(0, 0, 0, 0); }\n  .HeaderCell_HeaderCell__lVi2L.HeaderCell_isDragging__32Ss7 {\n    box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px;\n    transition: 150ms opacity ease-in, 300ms box-shadow ease-in;\n    opacity: 0.7; }\n\n.HeaderCell_LabelContainer__hXbBQ {\n  width: 100%;\n  height: 100%;\n  padding: 0 16px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  display: flex;\n  align-items: center; }\n\n.HeaderCell_Label__SrYof {\n  width: 100%;\n  overflow-x: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n";
 var styles$1 = {"HeaderCell":"HeaderCell_HeaderCell__lVi2L","isAnyDragging":"HeaderCell_isAnyDragging__3KJwT","notResizable":"HeaderCell_notResizable__2RBMh","isDragging":"HeaderCell_isDragging__32Ss7","LabelContainer":"HeaderCell_LabelContainer__hXbBQ","Label":"HeaderCell_Label__SrYof"};
@@ -5688,7 +5656,6 @@ function HeaderCellWrapped({ column: { key, width, label, minWidth, name, notRes
             createElement("div", { className: styles$1.Label }, displayLabel)),
         onWidthChangeEnd && !notResizable && (createElement(ResizeDragHandle, { isHidden: isAnyDragging, minWidth: minWidth, shouldMoveLeftToAvoidOverflow: isLastChild, targetRef: ref, onWidthChange: handleTransientWidthChange, onWidthChangeEnd: handleWidthChange }))));
 }
-//# sourceMappingURL=HeaderCellWrapped.js.map
 
 function HeaderCell(props) {
     const { column, columnIndex, draggingKey, headerCellRefs, isDragDisabled, isLastChild, onWidthChange, onWidthChangeEnd, } = props;
@@ -5720,7 +5687,6 @@ function getAxisLockedTransform(style) {
     }
     return `${parts[0]}, 0)`;
 }
-//# sourceMappingURL=HeaderCell.js.map
 
 var css$2 = ".Header_Header__1I5CE {\n  border-bottom: 1px solid #e6e6e6;\n  grid-column: 1 / -1;\n  display: flex;\n  font-weight: bold; }\n\n.Header_isAnyDragging__1wGte {\n  background-color: #e6e6e6; }\n";
 var styles$2 = {"Header":"Header_Header__1I5CE","isAnyDragging":"Header_isAnyDragging__1wGte"};
@@ -5768,170 +5734,10 @@ function Header({ columns: rawColumns, defaultColumnMinWidth, draggingKey, heade
                 }
             } })))));
 }
-//# sourceMappingURL=Header.js.map
 
-function useHoverState() {
-    const [isHovering, setIsHovering] = useState(false);
-    const handleMouseLeave = useCallback(() => {
-        setIsHovering(false);
-    }, []);
-    const handleMouseEnter = useCallback(() => {
-        setIsHovering(true);
-    }, []);
-    return [
-        isHovering,
-        {
-            onMouseEnter: handleMouseEnter,
-            onMouseLeave: handleMouseLeave,
-        },
-    ];
-}
-//# sourceMappingURL=useHoverState.js.map
-
-var css$3 = ".Cell_Cell__1-3zV {\n  background-color: inherit;\n  box-sizing: border-box;\n  padding: 0 16px;\n  color: #494949;\n  height: 72px;\n  display: flex;\n  align-items: center;\n  position: relative;\n  border-bottom: 1px solid #e6e6e6;\n  transition: 200ms color ease-out; }\n  .Cell_Cell__1-3zV.Cell_isLastRow__1vtWp {\n    border-bottom: none; }\n\n.Cell_Content__sRZrE {\n  overflow-x: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n\n.Cell_isDragging__1GXEv {\n  color: gray;\n  transition: 200ms color ease-in; }\n";
-var styles$3 = {"Cell":"Cell_Cell__1-3zV","isLastRow":"Cell_isLastRow__1vtWp","Content":"Cell_Content__sRZrE","isDragging":"Cell_isDragging__1GXEv"};
+var css$3 = ".Grid_GridPane__3SgbV {\n  color: #494949;\n  position: relative;\n  width: 100%;\n  margin-top: -100vh;\n  pointer-events: none; }\n\n.Grid_Grid__2Cmk2 {\n  text-align: left;\n  overflow-x: auto;\n  overflow-y: hidden;\n  display: grid;\n  position: relative;\n  background-color: white;\n  margin-top: 100vh;\n  pointer-events: all;\n  border: 1px solid #e6e6e6;\n  transition: 160ms box-shadow ease-out;\n  padding-left: 4px;\n  padding-right: 4px; }\n  .Grid_Grid__2Cmk2 .Grid_HeaderCell__1MH3g {\n    display: none; }\n  .Grid_Grid__2Cmk2.Grid_canScrollRight__25Eu4 {\n    box-shadow: inset -8px 0px 8px -8px rgba(0, 0, 0, 0.1); }\n  .Grid_Grid__2Cmk2.Grid_canScrollLeft__3SlfR {\n    box-shadow: inset 8px 0px 8px -8px rgba(0, 0, 0, 0.1); }\n  .Grid_Grid__2Cmk2.Grid_canScrollLeft__3SlfR.Grid_canScrollRight__25Eu4 {\n    box-shadow: inset -8px 0px 8px -8px rgba(0, 0, 0, 0.1), inset 8px 0px 8px -8px rgba(0, 0, 0, 0.1); }\n\n.Grid_canScrollLeft__3SlfR,\n.Grid_canScrollRight__25Eu4 {\n  transition: 160ms box-shadow ease-in; }\n";
+var styles$3 = {"GridPane":"Grid_GridPane__3SgbV","Grid":"Grid_Grid__2Cmk2","HeaderCell":"Grid_HeaderCell__1MH3g","canScrollRight":"Grid_canScrollRight__25Eu4","canScrollLeft":"Grid_canScrollLeft__3SlfR"};
 styleInject(css$3);
-
-const Cell = memo(forwardRef((_a, ref) => {
-    var { column, columnIndex, datum, isColumnVisible, isDragging, isLastRow, rowIndex } = _a, _b = _a.springProps, { dy, rowIndex: animatedRowIndex } = _b, restSpringProps = __rest(_b, ["dy", "rowIndex"]);
-    const { key, renderer } = column;
-    const value = useMemo(() => {
-        if (!isColumnVisible) {
-            return null;
-        }
-        const valueFromKey = get$1(datum, key, null);
-        if (renderer) {
-            return renderer({ datum, rowIndex, value: valueFromKey });
-        }
-        return valueFromKey;
-    }, [datum, isColumnVisible, renderer, key, rowIndex]);
-    return (createElement(extendedAnimated.div, { className: classnames(styles$3.Cell, {
-            [styles$3.isDragging]: isDragging,
-            [styles$3.isLastRow]: isLastRow,
-        }), ref: ref, style: Object.assign({ gridColumn: columnIndex + 1, gridRow: animatedRowIndex.interpolate((i) => `${Math.floor(i)}`) }, restSpringProps, { transform: dy.interpolate((y) => `translateY(${y}px)`) }) },
-        createElement("div", { className: styles$3.Content }, value)));
-}));
-//# sourceMappingURL=Cell.js.map
-
-var css$4 = ".RowOverlay_RowOverlay__2YnzW {\n  position: absolute;\n  top: 1px;\n  bottom: 1px;\n  align-items: center;\n  pointer-events: none; }\n";
-var styles$4 = {"RowOverlay":"RowOverlay_RowOverlay__2YnzW"};
-styleInject(css$4);
-
-function RowOverlay({ children, columnsLength, isHoveringRow, rowIndex, }) {
-    const gridNode = useContext(GridNodeContext);
-    const ref = useRef(null);
-    const handleResize = useCallback(() => {
-        if (ref.current && gridNode) {
-            ref.current.style.width = `${gridNode.clientWidth}px`;
-        }
-    }, [gridNode]);
-    useEffect(() => {
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, [handleResize]);
-    const recalculatePosition = useCallback(() => {
-        if (gridNode && gridNode.clientWidth > 0 && ref.current) {
-            ref.current.style.left = `${gridNode.scrollLeft}px`;
-            ref.current.style.width = `${gridNode.clientWidth}px`;
-        }
-    }, [gridNode]);
-    const scrollInterval = useRef(null);
-    const handleScroll = useCallback(() => {
-        if (!ref.current) {
-            return;
-        }
-        if (scrollInterval.current) {
-            clearTimeout(scrollInterval.current);
-        }
-        ref.current.style.display = 'none';
-        recalculatePosition();
-        scrollInterval.current = setTimeout(() => {
-            if (ref.current) {
-                ref.current.style.display = 'block';
-            }
-        }, 1);
-    }, [recalculatePosition]);
-    useEffect(() => {
-        if (gridNode) {
-            gridNode.addEventListener('scroll', handleScroll);
-        }
-        return () => {
-            if (gridNode) {
-                gridNode.removeEventListener('scroll', handleScroll);
-            }
-        };
-    }, [gridNode, handleScroll]);
-    useEffect(() => {
-        return () => {
-            if (scrollInterval.current) {
-                clearInterval(scrollInterval.current);
-            }
-        };
-    }, []);
-    useEffect(() => {
-        if (isHoveringRow) {
-            recalculatePosition();
-        }
-    }, [isHoveringRow, recalculatePosition]);
-    if (!gridNode) {
-        return null;
-    }
-    return (createElement("div", { className: styles$4.RowOverlay, ref: ref, style: {
-            gridColumnEnd: columnsLength,
-            gridRowEnd: rowIndex + 3,
-            gridRowStart: rowIndex + 2,
-        } }, children));
-}
-//# sourceMappingURL=RowOverlay.js.map
-
-var css$5 = ".Row_Cell__Wkai2 {\n  background-color: inherit;\n  box-sizing: border-box;\n  padding: 0 16px;\n  color: #494949;\n  height: 72px;\n  display: flex;\n  align-items: center;\n  position: relative;\n  border-bottom: 1px solid #e6e6e6;\n  transition: 200ms color ease-out; }\n  .Row_Cell__Wkai2.Row_isLastRow__kcUhG {\n    border-bottom: none; }\n\n.Row_Content__2erQp {\n  overflow-x: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n\n.Row_isDragging__2r8Gs {\n  color: gray;\n  transition: 200ms color ease-in; }\n\n.Row_Row__3uXq8 {\n  display: contents; }\n  .Row_Row__3uXq8:hover {\n    background-color: #fafafa; }\n  .Row_Row__3uXq8.Row_isClickable__3EDnY {\n    cursor: pointer; }\n\n.Row_NullCell__2XBZD {\n  background-color: inherit;\n  width: 100%;\n  height: 100%;\n  border-bottom: 1px solid #e6e6e6; }\n";
-var styles$5 = {"Cell":"Row_Cell__Wkai2","isLastRow":"Row_isLastRow__kcUhG","Content":"Row_Content__2erQp","isDragging":"Row_isDragging__2r8Gs","Row":"Row_Row__3uXq8","isClickable":"Row_isClickable__3EDnY","NullCell":"Row_NullCell__2XBZD"};
-styleInject(css$5);
-
-const Row = memo(({ cellRefs, columns, columnVisibility, datum, draggingKey, isLastRow, isSelected, onClick, rowIndex, rowOverlay, springProps, }) => {
-    const [isHovering, hoverBind] = useHoverState();
-    const handleRowClick = useCallback((e) => {
-        if (onClick) {
-            onClick(e, { rowIndex, datum });
-        }
-    }, [onClick, rowIndex, datum]);
-    const handleKeyDown = useCallback((e) => {
-        if (e.key === 'Enter' && onClick) {
-            onClick(e, { rowIndex, datum });
-        }
-    }, [datum, onClick, rowIndex]);
-    return (createElement("div", Object.assign({}, hoverBind, { className: classnames(styles$5.Row, {
-            [styles$5.isSelected]: isSelected,
-            [styles$5.isClickable]: Boolean(onClick),
-        }), onClick: handleRowClick, role: "row", tabIndex: 0, onKeyDown: handleKeyDown }),
-        columns.map((column, columnIndex) => {
-            const { key } = column;
-            return (createElement(Cell, { column: column, datum: datum, isColumnVisible: Boolean(!columnVisibility || columnVisibility[columnIndex]), isDragging: key === draggingKey, isLastRow: isLastRow, key: key, ref: (node) => {
-                    if (!cellRefs.current || !node) {
-                        return;
-                    }
-                    if (!cellRefs.current.has(key)) {
-                        cellRefs.current.set(key, []);
-                    }
-                    const columnNodeArray = cellRefs.current.get(key);
-                    if (columnNodeArray) {
-                        columnNodeArray[rowIndex] = node;
-                    }
-                }, columnIndex: columnIndex, rowIndex: rowIndex, springProps: springProps }));
-        }),
-        rowOverlay && (createElement(RowOverlay, { columnsLength: columns.length, isHoveringRow: isHovering, rowIndex: rowIndex }, rowOverlay({
-            datum,
-            isVisible: isHovering,
-            rowIndex,
-        })))));
-});
-//# sourceMappingURL=Row.js.map
-
-var css$6 = ".Grid_GridPane__3SgbV {\n  color: #494949;\n  position: relative;\n  width: 100%;\n  margin-top: -100vh;\n  pointer-events: none; }\n\n.Grid_Grid__2Cmk2 {\n  text-align: left;\n  overflow-x: auto;\n  overflow-y: hidden;\n  display: grid;\n  position: relative;\n  background-color: white;\n  margin-top: 100vh;\n  pointer-events: all;\n  border: 1px solid #e6e6e6;\n  transition: 160ms box-shadow ease-out;\n  padding-left: 4px;\n  padding-right: 4px; }\n  .Grid_Grid__2Cmk2 .Grid_HeaderCell__1MH3g {\n    display: none; }\n  .Grid_Grid__2Cmk2.Grid_canScrollRight__25Eu4 {\n    box-shadow: inset -8px 0px 8px -8px rgba(0, 0, 0, 0.1); }\n  .Grid_Grid__2Cmk2.Grid_canScrollLeft__3SlfR {\n    box-shadow: inset 8px 0px 8px -8px rgba(0, 0, 0, 0.1); }\n  .Grid_Grid__2Cmk2.Grid_canScrollLeft__3SlfR.Grid_canScrollRight__25Eu4 {\n    box-shadow: inset -8px 0px 8px -8px rgba(0, 0, 0, 0.1), inset 8px 0px 8px -8px rgba(0, 0, 0, 0.1); }\n\n.Grid_canScrollLeft__3SlfR,\n.Grid_canScrollRight__25Eu4 {\n  transition: 160ms box-shadow ease-in; }\n";
-var styles$6 = {"GridPane":"Grid_GridPane__3SgbV","Grid":"Grid_Grid__2Cmk2","HeaderCell":"Grid_HeaderCell__1MH3g","canScrollRight":"Grid_canScrollRight__25Eu4","canScrollLeft":"Grid_canScrollLeft__3SlfR"};
-styleInject(css$6);
 
 const GridWrapped = forwardRef(({ columns: rawColumns, data, defaultColumnMinWidth = 200, onColumnsOrderChange, onColumnWidthChange, onRowClick, rowKey, rowOverlay, selectedRowIndexes, setGridNode, virtualizationEnabled, }, externalRef) => {
     const columns = useMemo(() => rawColumns
@@ -5955,38 +5761,23 @@ const GridWrapped = forwardRef(({ columns: rawColumns, data, defaultColumnMinWid
     const rowKeyAccessor = useCallback((d) => (isString(rowKey) ? d[rowKey] : rowKey(d)), [rowKey]);
     const ids = data.map(rowKeyAccessor);
     const prevIds = usePreviousValue(ids) || [];
-    const prevIndexes = ids.map((id) => prevIds.indexOf(id));
-    const transitionData = data.map((datum, index) => ({
-        datum,
-        index,
-        prevIndex: prevIndexes[index],
-    }));
-    const transitions = useTransition(transitionData, ids, {
-        from: ({ index }) => ({
-            opacity: 0,
-            dy: -30,
-            rowIndex: index + 2,
-        }),
-        leave: { opacity: 0, dy: 10 },
-        enter: ({ index }) => ({
-            opacity: 1,
-            dy: 0,
-            rowIndex: index + 2,
-        }),
-        update: ({ index, prevIndex }) => {
-            return {
-                opacity: 1,
-                dy: (index - prevIndex) * 72,
-                rowIndex: index + 2,
-            };
-        },
-    });
-    console.log({ transitions });
-    return (createElement("div", { className: styles$6.GridPane },
+    // const indexes = ids.map((id, index) => index);
+    // const prevIndexes = ids.map((id) => prevIds.indexOf(id));
+    // const transitionData = data.map((datum, index) => ({
+    //   datum,
+    //   index,
+    //   prevIndex: prevIndexes[index],
+    // }));
+    const addedIds = difference(prevIds, ids);
+    const removedIds = difference(ids, prevIds);
+    console.log({ addedIds, removedIds });
+    const [springs, set] = useSprings(Math.max(ids.length, prevIds.length), (_index) => ({ opacity: 1 }));
+    console.log({ springs, set });
+    return (createElement("div", { className: styles$3.GridPane },
         createElement(DragDropContext, { onDragEnd: onDragEnd, onDragUpdate: onDragUpdate, onDragStart: onDragStart },
-            createElement(Droppable, { droppableId: "droppable", direction: "horizontal" }, ({ innerRef: droppableInnerRef, droppableProps }) => (createElement("div", Object.assign({ className: classnames(styles$6.Grid, {
-                    [styles$6.canScrollLeft]: canScrollLeft,
-                    [styles$6.canScrollRight]: canScrollRight,
+            createElement(Droppable, { droppableId: "droppable", direction: "horizontal" }, ({ innerRef: droppableInnerRef, droppableProps }) => (createElement("div", Object.assign({ className: classnames(styles$3.Grid, {
+                    [styles$3.canScrollLeft]: canScrollLeft,
+                    [styles$3.canScrollRight]: canScrollRight,
                 }), ref: (node) => {
                     droppableInnerRef(node);
                     if (externalRef) {
@@ -5997,7 +5788,6 @@ const GridWrapped = forwardRef(({ columns: rawColumns, data, defaultColumnMinWid
                     gridTemplateColumns: columnsToGridTemplate(columns, defaultColumnMinWidth),
                 } }),
                 createElement(Header, { cellRefs: cellRefs, columns: columns, defaultColumnMinWidth: defaultColumnMinWidth, draggingKey: draggingKey, headerCellRefs: headerCellRefs, trackingCellRefs: trackingCellRefs, onColumnWidthChange: onColumnWidthChange, isColumnDragDisabled: isColumnDragDisabled }),
-                transitions.map(({ item: { datum }, props: springProps }, rowIndex) => (createElement(Row, { cellRefs: cellRefs, columns: columns, columnVisibility: columnVisibility, datum: datum, draggingKey: draggingKey, isLastRow: rowIndex === data.length - 1, isSelected: Boolean(selectedRowIndexes && selectedRowIndexes.has(rowIndex)), key: rowKeyAccessor(datum), onClick: onRowClick, rowIndex: rowIndex, rowOverlay: rowOverlay, springProps: springProps }))),
                 observerComponent))))));
 });
 function usePreviousValue(value) {
@@ -6029,7 +5819,6 @@ const Grid = memo(forwardRef((props, externalRef) => {
     }
     return true;
 });
-//# sourceMappingURL=Grid.js.map
 
 function useColumnOrderState(columns) {
     const [columnOrder, setColumnOrder] = useState(columns.map(({ key }) => key));
@@ -6038,9 +5827,6 @@ function useColumnOrderState(columns) {
     }, [columnOrder]);
     return [columnOrder, onColumnOrderChange];
 }
-//# sourceMappingURL=useColumnOrderState.js.map
-
-//# sourceMappingURL=index.js.map
 
 export { Grid, useColumnOrderState, sortColumns };
 //# sourceMappingURL=index.es.js.map
