@@ -2,7 +2,6 @@
 
 $cell-horizontal-padding: 16px;
 $cell-text-color: $black;
-$cell-height: 72px;
 $cell-border-color: $gray;
 
 .Cell {
@@ -11,7 +10,6 @@ $cell-border-color: $gray;
   padding: 0 $cell-horizontal-padding;
 
   color: $cell-text-color;
-  height: $cell-height;
   display: flex;
   align-items: center;
   position: relative;
