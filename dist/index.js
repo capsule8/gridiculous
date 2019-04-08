@@ -4230,7 +4230,6 @@ const Grid = React.memo(React.forwardRef((props, externalRef) => {
     }
     return true;
 });
-console.log({ React });
 
 function useColumnOrderState(columns) {
     const [columnOrder, setColumnOrder] = React.useState(columns.map(({ key }) => key));
