@@ -52,5 +52,3 @@ export const Grid = React.memo(
     return true;
   },
 );
-
-console.log({ React });
