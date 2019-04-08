@@ -14,7 +14,7 @@ const aliasesFormatter: Formatter = ({ value: aliases }) =>
   aliases.map((a: string) => _.capitalize(a)).join(', ');
 
 const COLUMNS: Column[] = [
-  { key: 'id', name: 'ID' },
+  { key: 'id', name: 'ID', notDraggable: true, notResizable: true },
   { key: 'name', name: 'Name' },
   {
     defaultWidth: 300,
@@ -39,8 +39,8 @@ function generateFakeData(n: number) {
     aliases: range(_.random(0, 5)).map(() => faker.hacker.noun()),
     birthdate: faker.date.past(200),
     bloodType: faker.random.alphaNumeric(),
-    citizenship: faker.address.country(),
     id: faker.random.uuid(),
+    citizenship: faker.address.country(),
     name: faker.name.findName(),
     outstandingWarrants: _.sample([true, false]),
     personalityType: faker.lorem.words(4),

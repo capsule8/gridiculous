@@ -4235,5 +4235,5 @@ function useColumnOrderState(columns) {
     return [columnOrder, onColumnOrderChange];
 }
 
-export { Grid, useColumnOrderState, sortColumns };
+export { Grid, sortColumns, useColumnOrderState };
 //# sourceMappingURL=index.es.js.map
