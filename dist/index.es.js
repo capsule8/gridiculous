@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { createContext, useRef, useState, useEffect, useCallback, createElement, Fragment, useContext, useMemo, memo, forwardRef } from 'react';
 import { Draggable, DragDropContext, Droppable } from 'react-beautiful-dnd';
 
@@ -4226,6 +4227,7 @@ const Grid = memo(forwardRef((props, externalRef) => {
     }
     return true;
 });
+console.log({ React });
 
 function useColumnOrderState(columns) {
     const [columnOrder, setColumnOrder] = useState(columns.map(({ key }) => key));
@@ -4235,5 +4237,5 @@ function useColumnOrderState(columns) {
     return [columnOrder, onColumnOrderChange];
 }
 
-export { Grid, useColumnOrderState, sortColumns };
+export { Grid, sortColumns, useColumnOrderState };
 //# sourceMappingURL=index.es.js.map

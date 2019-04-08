@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { Props as WrappedProps } from './HeaderCellWrapped';
 interface Props {
     columnIndex: number;
