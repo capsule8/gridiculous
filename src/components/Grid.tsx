@@ -2,21 +2,27 @@ import isEqual from 'lodash-es/isEqual';
 import pick from 'lodash-es/pick';
 import * as React from 'react';
 
-import { GridNodeContext } from '../context';
+import { GridNodeContext, ClassNamesContext, ClassNames } from '../context';
 
 import { GridWrapped, Props as GridProps } from './GridWrapped';
+
+interface GridOuterProps {
+  classNames?: ClassNames;
+}
 
 export const Grid = React.memo(
   React.forwardRef(
     (
-      props: GridProps,
+      props: GridProps & GridOuterProps,
       externalRef: React.MutableRefObject<HTMLElement | null>,
     ) => {
       const gridRef = React.useRef<HTMLElement | null>(null);
       return (
-        <GridNodeContext.Provider value={gridRef.current}>
-          <GridWrapped {...props} ref={externalRef} gridRef={gridRef} />
-        </GridNodeContext.Provider>
+        <ClassNamesContext.Provider value={props.classNames || {}}>
+          <GridNodeContext.Provider value={gridRef.current}>
+            <GridWrapped {...props} ref={externalRef} gridRef={gridRef} />
+          </GridNodeContext.Provider>
+        </ClassNamesContext.Provider>
       );
     },
   ),

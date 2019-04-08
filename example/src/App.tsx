@@ -131,13 +131,14 @@ export function App() {
         </button>
         <div className="Grid-container">
           <Grid
+            classNames={{ Cell: 'Cell', HeaderCell: 'HeaderCell' }}
             columns={columns}
             data={data}
             defaultColumnMinWidth={150}
             onColumnsOrderChange={handleColumnOrderChange}
             onColumnWidthChange={handleColumnWidthsChange}
             rowKey="id"
-            virtualizationEnabled={true}
+            virtualizationEnabled={false}
           />
         </div>
       </header>

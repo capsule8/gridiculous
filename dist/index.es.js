@@ -2806,6 +2806,8 @@ var pick = flatRest(function(object, paths) {
 });
 
 const GridNodeContext = createContext(null);
+const ClassNamesContext = createContext({});
+//# sourceMappingURL=context.js.map
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -2915,6 +2917,7 @@ function useIntersectionObserver({ root, rootMargin, target, isEnabled, }) {
     }, [isEnabled, root, rootMargin, target]);
     return isIntersecting;
 }
+//# sourceMappingURL=useIntersectionObserver.js.map
 
 function ColumnIntersectionObserver({ columnIndex, dataLength, onIsIntersectingChange, isEnabled, }) {
     const gridNode = useContext(GridNodeContext);
@@ -2958,6 +2961,7 @@ function useColumnsIntersectionObserver({ columns, dataLength, isEnabled, }) {
         createElement(Fragment, null, columnVisibility.map((_c, columnIndex) => (createElement(ColumnIntersectionObserver, { columnIndex: columnIndex, dataLength: dataLength, isEnabled: isEnabled, key: columns[columnIndex].key, onIsIntersectingChange: handleColumnIntersectingChange })))),
     ];
 }
+//# sourceMappingURL=useColumnIntersectionObserver.js.map
 
 /** `Object#toString` result references. */
 var numberTag$2 = '[object Number]';
@@ -3014,6 +3018,7 @@ function columnsToGridTemplate(columns, defaultColumnMinWidth, override) {
     })
         .join(' ');
 }
+//# sourceMappingURL=columnsToGridTemplate.js.map
 
 /** Used to compose bitmasks for value comparisons. */
 var COMPARE_PARTIAL_FLAG$4 = 1,
@@ -3582,6 +3587,7 @@ var sortBy = baseRest(function(collection, iteratees) {
 function sortColumns(columns, columnOrder) {
     return sortBy(columns, ({ key }) => columnOrder.indexOf(key));
 }
+//# sourceMappingURL=sortColumns.js.map
 
 function spliceColumnOrder(columnOrder, sourceIndex, destinationIndex) {
     const newColumnOrder = [...columnOrder];
@@ -3589,6 +3595,7 @@ function spliceColumnOrder(columnOrder, sourceIndex, destinationIndex) {
     newColumnOrder.splice(destinationIndex, 0, removed);
     return newColumnOrder;
 }
+//# sourceMappingURL=spliceColumnOrder.js.map
 
 function useTrackCells({ headerCellRefs, trackingCellRefs, }) {
     return useCallback((columns) => {
@@ -3604,6 +3611,7 @@ function useTrackCells({ headerCellRefs, trackingCellRefs, }) {
         });
     }, [headerCellRefs, trackingCellRefs]);
 }
+//# sourceMappingURL=useTrackCells.js.map
 
 function useDragDrop({ columns, defaultColumnMinWidth, isColumnDragDisabled, onColumnsOrderChange, }) {
     const gridNode = useContext(GridNodeContext);
@@ -3706,6 +3714,7 @@ function useDragDrop({ columns, defaultColumnMinWidth, isColumnDragDisabled, onC
         trackingCellRefs,
     };
 }
+//# sourceMappingURL=useDragDrop.js.map
 
 function usePaneScrollState() {
     const gridNode = useContext(GridNodeContext);
@@ -3748,6 +3757,7 @@ function usePaneScrollState() {
     }, [gridNode, checkScroll]);
     return { canScrollLeft, canScrollRight };
 }
+//# sourceMappingURL=usePaneScrollState.js.map
 
 function applyColumnWidthDefaults(column) {
     const { defaultWidth, width } = column;
@@ -3777,6 +3787,7 @@ function applyColumnMinWidth(column) {
     }
     return column;
 }
+//# sourceMappingURL=columnWidthHelpers.js.map
 
 /**
  * Checks if `value` is `undefined`.
@@ -3828,7 +3839,7 @@ function styleInject(css, ref) {
 
 var css = ".ResizeDragHandle_ResizeDragHandle__3xlp4 {\n  bottom: 0;\n  cursor: col-resize;\n  position: absolute;\n  right: -0.5px;\n  top: 0;\n  width: 1px;\n  opacity: 0; }\n\n.ResizeDragHandle_isHidden__15ZAa {\n  opacity: 0; }\n\n.ResizeDragHandle_ExtraHandle__3g5LA {\n  position: absolute;\n  width: 8px;\n  background-color: red;\n  height: 100%;\n  opacity: 0;\n  right: -4px; }\n\n.ResizeDragHandle_moveLeftToAvoidOverflow__CvfYT {\n  right: 0; }\n  .ResizeDragHandle_moveLeftToAvoidOverflow__CvfYT .ResizeDragHandle_InvisibleHandle__2outp {\n    right: 0; }\n\nbody.ResizeDragHandle_colResizing__3Z8jg {\n  cursor: col-resize !important; }\n";
 var styles = {"ResizeDragHandle":"ResizeDragHandle_ResizeDragHandle__3xlp4","isHidden":"ResizeDragHandle_isHidden__15ZAa","ExtraHandle":"ResizeDragHandle_ExtraHandle__3g5LA","moveLeftToAvoidOverflow":"ResizeDragHandle_moveLeftToAvoidOverflow__CvfYT","InvisibleHandle":"ResizeDragHandle_InvisibleHandle__2outp","colResizing":"ResizeDragHandle_colResizing__3Z8jg"};
-styleInject(css);
+styleInject(css,{"insertAt":"top"});
 
 function ResizeDragHandle({ isHidden, maxWidth = 1000, minWidth = 50, onWidthChange, onWidthChangeEnd, shouldMoveLeftToAvoidOverflow, targetRef, }) {
     const ownRef = useRef(null);
@@ -3886,12 +3897,14 @@ function ResizeDragHandle({ isHidden, maxWidth = 1000, minWidth = 50, onWidthCha
         }) },
         createElement("div", { className: styles.ExtraHandle })));
 }
+//# sourceMappingURL=ResizeDragHandle.js.map
 
-var css$1 = ".HeaderCell_HeaderCell__lVi2L {\n  box-sizing: border-box;\n  display: flex;\n  align-items: center;\n  position: relative;\n  grid-row: 1;\n  height: 56px;\n  border: 1px solid rgba(0, 0, 0, 0);\n  opacity: 1;\n  transition: 150 opacity ease-out, 250ms box-shadow ease-out; }\n  .HeaderCell_HeaderCell__lVi2L:hover {\n    transition: 250ms box-shadow ease-out;\n    border-right: 1px solid #e6e6e6;\n    border-left: 1px solid #e6e6e6; }\n  .HeaderCell_HeaderCell__lVi2L.HeaderCell_isAnyDragging__3KJwT:not(.HeaderCell_notResizable__2RBMh) {\n    background-color: white;\n    border-right: 1px solid #e6e6e6; }\n  .HeaderCell_HeaderCell__lVi2L.HeaderCell_notResizable__2RBMh:hover {\n    border: 1px solid rgba(0, 0, 0, 0); }\n  .HeaderCell_HeaderCell__lVi2L.HeaderCell_isDragging__32Ss7 {\n    box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px;\n    transition: 150ms opacity ease-in, 300ms box-shadow ease-in;\n    opacity: 0.7; }\n\n.HeaderCell_LabelContainer__hXbBQ {\n  width: 100%;\n  height: 100%;\n  padding: 0 16px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  display: flex;\n  align-items: center; }\n\n.HeaderCell_Label__SrYof {\n  width: 100%;\n  overflow-x: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n";
+var css$1 = ".HeaderCell_HeaderCell__lVi2L {\n  box-sizing: border-box;\n  display: flex;\n  align-items: center;\n  position: relative;\n  grid-row: 1;\n  border: 1px solid rgba(0, 0, 0, 0);\n  opacity: 1;\n  transition: 150 opacity ease-out, 250ms box-shadow ease-out; }\n  .HeaderCell_HeaderCell__lVi2L:hover {\n    transition: 250ms box-shadow ease-out;\n    border-right: 1px solid #e6e6e6;\n    border-left: 1px solid #e6e6e6; }\n  .HeaderCell_HeaderCell__lVi2L.HeaderCell_isAnyDragging__3KJwT:not(.HeaderCell_notResizable__2RBMh) {\n    background-color: white;\n    border-right: 1px solid #e6e6e6; }\n  .HeaderCell_HeaderCell__lVi2L.HeaderCell_notResizable__2RBMh:hover {\n    border: 1px solid rgba(0, 0, 0, 0); }\n  .HeaderCell_HeaderCell__lVi2L.HeaderCell_isDragging__32Ss7 {\n    box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px 0px;\n    transition: 150ms opacity ease-in, 300ms box-shadow ease-in;\n    opacity: 0.7; }\n\n.HeaderCell_LabelContainer__hXbBQ {\n  width: 100%;\n  height: 100%;\n  padding: 0 16px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  display: flex;\n  align-items: center; }\n\n.HeaderCell_Label__SrYof {\n  width: 100%;\n  overflow-x: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n";
 var styles$1 = {"HeaderCell":"HeaderCell_HeaderCell__lVi2L","isAnyDragging":"HeaderCell_isAnyDragging__3KJwT","notResizable":"HeaderCell_notResizable__2RBMh","isDragging":"HeaderCell_isDragging__32Ss7","LabelContainer":"HeaderCell_LabelContainer__hXbBQ","Label":"HeaderCell_Label__SrYof"};
-styleInject(css$1);
+styleInject(css$1,{"insertAt":"top"});
 
 function HeaderCellWrapped({ column: { key, width, label, minWidth, name, notResizable }, dragHandleProps, draggableInnerRef, draggableProps, draggingKey, headerCellRefs, isLastChild, onWidthChange, onWidthChangeEnd, style, transform, }) {
+    const classNames = useContext(ClassNamesContext);
     const ref = useRef(null);
     const isAnyDragging = Boolean(draggingKey);
     const isDragging = key === draggingKey;
@@ -3908,7 +3921,7 @@ function HeaderCellWrapped({ column: { key, width, label, minWidth, name, notRes
             [styles$1.isDragging]: isDragging,
             [styles$1.isAnyDragging]: isAnyDragging,
             [styles$1.notResizable]: notResizable,
-        }), ref: (node) => {
+        }, classNames.HeaderCell), ref: (node) => {
             if (draggableInnerRef) {
                 draggableInnerRef(node);
             }
@@ -3922,6 +3935,7 @@ function HeaderCellWrapped({ column: { key, width, label, minWidth, name, notRes
             createElement("div", { className: styles$1.Label }, displayLabel)),
         onWidthChangeEnd && !notResizable && (createElement(ResizeDragHandle, { isHidden: isAnyDragging, minWidth: minWidth, shouldMoveLeftToAvoidOverflow: isLastChild, targetRef: ref, onWidthChange: handleTransientWidthChange, onWidthChangeEnd: handleWidthChange }))));
 }
+//# sourceMappingURL=HeaderCellWrapped.js.map
 
 function HeaderCell(props) {
     const { column, columnIndex, draggingKey, headerCellRefs, isDragDisabled, isLastChild, onWidthChange, onWidthChangeEnd, } = props;
@@ -3953,10 +3967,11 @@ function getAxisLockedTransform(style) {
     }
     return `${parts[0]}, 0)`;
 }
+//# sourceMappingURL=HeaderCell.js.map
 
 var css$2 = ".Header_Header__1I5CE {\n  border-bottom: 1px solid #e6e6e6;\n  grid-column: 1 / -1;\n  display: flex;\n  font-weight: bold; }\n\n.Header_isAnyDragging__1wGte {\n  background-color: #e6e6e6; }\n";
 var styles$2 = {"Header":"Header_Header__1I5CE","isAnyDragging":"Header_isAnyDragging__1wGte"};
-styleInject(css$2);
+styleInject(css$2,{"insertAt":"top"});
 
 function Header({ columns: rawColumns, defaultColumnMinWidth, draggingKey, headerCellRefs, isColumnDragDisabled, onColumnWidthChange, trackingCellRefs, }) {
     const gridNode = useContext(GridNodeContext);
@@ -4000,6 +4015,7 @@ function Header({ columns: rawColumns, defaultColumnMinWidth, draggingKey, heade
                 }
             } })))));
 }
+//# sourceMappingURL=Header.js.map
 
 function useHoverState() {
     const [isHovering, setIsHovering] = useState(false);
@@ -4017,12 +4033,14 @@ function useHoverState() {
         },
     ];
 }
+//# sourceMappingURL=useHoverState.js.map
 
-var css$3 = ".Cell_Cell__1-3zV {\n  background-color: inherit;\n  box-sizing: border-box;\n  padding: 0 16px;\n  color: #494949;\n  height: 72px;\n  display: flex;\n  align-items: center;\n  position: relative;\n  border-bottom: 1px solid #e6e6e6;\n  transition: 200ms color ease-out; }\n  .Cell_Cell__1-3zV.Cell_isLastRow__1vtWp {\n    border-bottom: none; }\n\n.Cell_Content__sRZrE {\n  overflow-x: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n\n.Cell_isDragging__1GXEv {\n  color: gray;\n  transition: 200ms color ease-in; }\n";
+var css$3 = ".Cell_Cell__1-3zV {\n  background-color: inherit;\n  box-sizing: border-box;\n  padding: 0 16px;\n  color: #494949;\n  display: flex;\n  align-items: center;\n  position: relative;\n  border-bottom: 1px solid #e6e6e6;\n  transition: 200ms color ease-out; }\n  .Cell_Cell__1-3zV.Cell_isLastRow__1vtWp {\n    border-bottom: none; }\n\n.Cell_Content__sRZrE {\n  overflow-x: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n\n.Cell_isDragging__1GXEv {\n  color: gray;\n  transition: 200ms color ease-in; }\n";
 var styles$3 = {"Cell":"Cell_Cell__1-3zV","isLastRow":"Cell_isLastRow__1vtWp","Content":"Cell_Content__sRZrE","isDragging":"Cell_isDragging__1GXEv"};
-styleInject(css$3);
+styleInject(css$3,{"insertAt":"top"});
 
 const Cell = memo(forwardRef(({ column, columnIndex, datum, isColumnVisible, isDragging, isLastRow, rowIndex, }, ref) => {
+    const classNames = useContext(ClassNamesContext);
     const { key, renderer } = column;
     const value = useMemo(() => {
         if (!isColumnVisible) {
@@ -4037,16 +4055,17 @@ const Cell = memo(forwardRef(({ column, columnIndex, datum, isColumnVisible, isD
     return (createElement("div", { className: classnames(styles$3.Cell, {
             [styles$3.isDragging]: isDragging,
             [styles$3.isLastRow]: isLastRow,
-        }), ref: ref, style: {
+        }, classNames.Cell), ref: ref, style: {
             gridColumn: columnIndex + 1,
             gridRow: rowIndex + 2,
         } },
         createElement("div", { className: styles$3.Content }, value)));
 }));
+//# sourceMappingURL=Cell.js.map
 
 var css$4 = ".RowOverlay_RowOverlay__2YnzW {\n  position: absolute;\n  top: 1px;\n  bottom: 1px;\n  align-items: center;\n  pointer-events: none; }\n";
 var styles$4 = {"RowOverlay":"RowOverlay_RowOverlay__2YnzW"};
-styleInject(css$4);
+styleInject(css$4,{"insertAt":"top"});
 
 function RowOverlay({ children, columnsLength, isHoveringRow, rowIndex, }) {
     const gridNode = useContext(GridNodeContext);
@@ -4115,10 +4134,11 @@ function RowOverlay({ children, columnsLength, isHoveringRow, rowIndex, }) {
             gridRowStart: rowIndex + 2,
         } }, children));
 }
+//# sourceMappingURL=RowOverlay.js.map
 
 var css$5 = ".Row_Cell__Wkai2 {\n  background-color: inherit;\n  box-sizing: border-box;\n  padding: 0 16px;\n  color: #494949;\n  height: 72px;\n  display: flex;\n  align-items: center;\n  position: relative;\n  border-bottom: 1px solid #e6e6e6;\n  transition: 200ms color ease-out; }\n  .Row_Cell__Wkai2.Row_isLastRow__kcUhG {\n    border-bottom: none; }\n\n.Row_Content__2erQp {\n  overflow-x: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n\n.Row_isDragging__2r8Gs {\n  color: gray;\n  transition: 200ms color ease-in; }\n\n.Row_Row__3uXq8 {\n  display: contents; }\n  .Row_Row__3uXq8:hover {\n    background-color: #fafafa; }\n  .Row_Row__3uXq8.Row_isClickable__3EDnY {\n    cursor: pointer; }\n\n.Row_NullCell__2XBZD {\n  background-color: inherit;\n  width: 100%;\n  height: 100%;\n  border-bottom: 1px solid #e6e6e6; }\n";
 var styles$5 = {"Cell":"Row_Cell__Wkai2","isLastRow":"Row_isLastRow__kcUhG","Content":"Row_Content__2erQp","isDragging":"Row_isDragging__2r8Gs","Row":"Row_Row__3uXq8","isClickable":"Row_isClickable__3EDnY","NullCell":"Row_NullCell__2XBZD"};
-styleInject(css$5);
+styleInject(css$5,{"insertAt":"top"});
 
 const Row = memo(({ cellRefs, columns, columnVisibility, datum, draggingKey, isLastRow, isSelected, onClick, rowIndex, rowOverlay, }) => {
     const [isHovering, hoverBind] = useHoverState();
@@ -4157,10 +4177,11 @@ const Row = memo(({ cellRefs, columns, columnVisibility, datum, draggingKey, isL
             rowIndex,
         })))));
 });
+//# sourceMappingURL=Row.js.map
 
 var css$6 = ".Grid_GridPane__3SgbV {\n  color: #494949;\n  position: relative;\n  width: 100%;\n  margin-top: -100vh;\n  pointer-events: none; }\n\n.Grid_Grid__2Cmk2 {\n  text-align: left;\n  overflow-x: auto;\n  overflow-y: hidden;\n  display: grid;\n  position: relative;\n  background-color: white;\n  margin-top: 100vh;\n  pointer-events: all;\n  border: 1px solid #e6e6e6;\n  transition: 160ms box-shadow ease-out;\n  padding-left: 4px;\n  padding-right: 4px; }\n  .Grid_Grid__2Cmk2 .Grid_HeaderCell__1MH3g {\n    display: none; }\n  .Grid_Grid__2Cmk2.Grid_canScrollRight__25Eu4 {\n    box-shadow: inset -8px 0px 8px -8px rgba(0, 0, 0, 0.1); }\n  .Grid_Grid__2Cmk2.Grid_canScrollLeft__3SlfR {\n    box-shadow: inset 8px 0px 8px -8px rgba(0, 0, 0, 0.1); }\n  .Grid_Grid__2Cmk2.Grid_canScrollLeft__3SlfR.Grid_canScrollRight__25Eu4 {\n    box-shadow: inset -8px 0px 8px -8px rgba(0, 0, 0, 0.1), inset 8px 0px 8px -8px rgba(0, 0, 0, 0.1); }\n\n.Grid_canScrollLeft__3SlfR,\n.Grid_canScrollRight__25Eu4 {\n  transition: 160ms box-shadow ease-in; }\n";
 var styles$6 = {"GridPane":"Grid_GridPane__3SgbV","Grid":"Grid_Grid__2Cmk2","HeaderCell":"Grid_HeaderCell__1MH3g","canScrollRight":"Grid_canScrollRight__25Eu4","canScrollLeft":"Grid_canScrollLeft__3SlfR"};
-styleInject(css$6);
+styleInject(css$6,{"insertAt":"top"});
 
 const GridWrapped = forwardRef(({ columns: rawColumns, data, defaultColumnMinWidth = 200, gridRef, onColumnsOrderChange, onColumnWidthChange, onRowClick, rowKey, rowOverlay, selectedRowIndexes, virtualizationEnabled, }, externalRef) => {
     const columns = useMemo(() => rawColumns
@@ -4200,11 +4221,13 @@ const GridWrapped = forwardRef(({ columns: rawColumns, data, defaultColumnMinWid
                 data.map((datum, rowIndex) => (createElement(Row, { cellRefs: cellRefs, columns: columns, columnVisibility: columnVisibility, datum: datum, draggingKey: draggingKey, isLastRow: rowIndex === data.length - 1, isSelected: Boolean(selectedRowIndexes && selectedRowIndexes.has(rowIndex)), key: rowKeyAccessor(datum), onClick: onRowClick, rowIndex: rowIndex, rowOverlay: rowOverlay }))),
                 observerComponent))))));
 });
+//# sourceMappingURL=GridWrapped.js.map
 
 const Grid = memo(forwardRef((props, externalRef) => {
     const gridRef = useRef(null);
-    return (createElement(GridNodeContext.Provider, { value: gridRef.current },
-        createElement(GridWrapped, Object.assign({}, props, { ref: externalRef, gridRef: gridRef }))));
+    return (createElement(ClassNamesContext.Provider, { value: props.classNames || {} },
+        createElement(GridNodeContext.Provider, { value: gridRef.current },
+            createElement(GridWrapped, Object.assign({}, props, { ref: externalRef, gridRef: gridRef })))));
 }), (prevProps, nextProps) => {
     const { columns: prevColumns, data: prevData } = prevProps, restPrevProps = __rest(prevProps, ["columns", "data"]);
     const { columns: nextColumns, data: nextData } = nextProps, restNextProps = __rest(nextProps, ["columns", "data"]);
@@ -4222,6 +4245,7 @@ const Grid = memo(forwardRef((props, externalRef) => {
     }
     return true;
 });
+//# sourceMappingURL=Grid.js.map
 
 function useColumnOrderState(columns) {
     const [columnOrder, setColumnOrder] = useState(columns.map(({ key }) => key));
@@ -4230,6 +4254,9 @@ function useColumnOrderState(columns) {
     }, [columnOrder]);
     return [columnOrder, onColumnOrderChange];
 }
+//# sourceMappingURL=useColumnOrderState.js.map
+
+//# sourceMappingURL=index.js.map
 
 export { Grid, useColumnOrderState, sortColumns };
 //# sourceMappingURL=index.es.js.map

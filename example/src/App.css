@@ -53,3 +53,11 @@
 .GeneratingDataForm label {
   margin: 8px;
 }
+
+.Cell {
+  padding: 16px;
+}
+
+.HeaderCell {
+  padding: 16px 0;
+}

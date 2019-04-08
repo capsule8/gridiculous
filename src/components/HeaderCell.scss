@@ -1,7 +1,6 @@
 @import '../shared.scss';
 
 $header-cell-vertical-padding: 16px;
-$header-cell-height: 56px;
 
 .HeaderCell {
   box-sizing: border-box;
@@ -9,7 +8,6 @@ $header-cell-height: 56px;
   align-items: center;
   position: relative;
   grid-row: 1;
-  height: $header-cell-height;
   border: 1px solid rgba(0, 0, 0, 0);
   opacity: 1;
   transition: 150 opacity ease-out, 250ms box-shadow ease-out;
