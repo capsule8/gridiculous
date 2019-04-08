@@ -8,6 +8,7 @@ import {
   NotDraggingStyle,
 } from 'react-beautiful-dnd';
 
+import { ClassNamesContext } from '../context';
 import { Column } from '../types';
 
 import { ResizeDragHandle } from './ResizeDragHandle';
@@ -44,6 +45,8 @@ export function HeaderCellWrapped({
   style,
   transform,
 }: Props & DragProps) {
+  const classNames = React.useContext(ClassNamesContext);
+
   const ref = React.useRef<HTMLElement | null>(null);
 
   const isAnyDragging = Boolean(draggingKey);
@@ -68,11 +71,15 @@ export function HeaderCellWrapped({
 
   return (
     <div
-      className={classnames(styles.HeaderCell, {
-        [styles.isDragging]: isDragging,
-        [styles.isAnyDragging]: isAnyDragging,
-        [styles.notResizable]: notResizable,
-      })}
+      className={classnames(
+        styles.HeaderCell,
+        {
+          [styles.isDragging]: isDragging,
+          [styles.isAnyDragging]: isAnyDragging,
+          [styles.notResizable]: notResizable,
+        },
+        classNames.HeaderCell,
+      )}
       ref={(node) => {
         if (draggableInnerRef) {
           draggableInnerRef(node);

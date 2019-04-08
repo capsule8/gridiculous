@@ -2,7 +2,6 @@ import typescript from 'rollup-plugin-typescript2';
 import bundleSize from 'rollup-plugin-bundle-size';
 import commonjs from 'rollup-plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
-// import postcss from 'rollup-plugin-postcss-modules'
 import postcss from 'rollup-plugin-postcss';
 import resolve from 'rollup-plugin-node-resolve';
 import url from 'rollup-plugin-url';
@@ -30,6 +29,9 @@ export default {
     external(['react', 'react-dom', 'react-beautiful-dnd']),
     postcss({
       modules: true,
+      inject: {
+        insertAt: 'top',
+      },
     }),
     url(),
     svgr(),

@@ -2,6 +2,7 @@ import classnames from 'classnames';
 import get from 'lodash-es/get';
 import * as React from 'react';
 
+import { ClassNamesContext } from '../context';
 import { Column, Datum } from '../types';
 import styles from './Cell.scss';
 
@@ -29,6 +30,8 @@ export const Cell = React.memo(
       }: Props,
       ref: React.RefObject<HTMLDivElement>,
     ) => {
+      const classNames = React.useContext(ClassNamesContext);
+
       const { key, renderer } = column;
 
       const value: React.ReactNode = React.useMemo<React.ReactNode>(() => {
@@ -44,10 +47,14 @@ export const Cell = React.memo(
 
       return (
         <div
-          className={classnames(styles.Cell, {
-            [styles.isDragging]: isDragging,
-            [styles.isLastRow]: isLastRow,
-          })}
+          className={classnames(
+            styles.Cell,
+            {
+              [styles.isDragging]: isDragging,
+              [styles.isLastRow]: isLastRow,
+            },
+            classNames.Cell,
+          )}
           ref={ref}
           style={{
             gridColumn: columnIndex + 1,
