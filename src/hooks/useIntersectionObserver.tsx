@@ -13,7 +13,7 @@ export function useIntersectionObserver({
   target: React.RefObject<HTMLElement>;
   isEnabled: boolean;
 }) {
-  const timeout = React.useRef<NodeJS.Timeout | null>(null);
+  const timeout = React.useRef<number | null>(null);
   const [isIntersecting, setIntersecting] = React.useState(false);
 
   React.useEffect(() => {

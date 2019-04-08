@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Column, Datum } from '../types';
+import { CellComponent } from './Cell';
 export declare type RowClickHandler = (e: React.MouseEvent | React.KeyboardEvent, o: {
     rowIndex: number;
     datum: Datum;
@@ -11,6 +12,7 @@ export interface RowOverlayChildProps {
 }
 export declare type RowOverlayChild = (o: RowOverlayChildProps) => React.ReactNode;
 interface Props {
+    cellComponent?: CellComponent;
     cellRefs: React.RefObject<Map<string, HTMLElement[]>>;
     columns: Column[];
     columnVisibility: boolean[] | null;
@@ -22,5 +24,5 @@ interface Props {
     rowIndex: number;
     rowOverlay?: RowOverlayChild;
 }
-export declare const Row: React.MemoExoticComponent<({ cellRefs, columns, columnVisibility, datum, draggingKey, isLastRow, isSelected, onClick, rowIndex, rowOverlay, }: Props) => JSX.Element>;
+export declare const Row: React.MemoExoticComponent<({ cellComponent, cellRefs, columns, columnVisibility, datum, draggingKey, isLastRow, isSelected, onClick, rowIndex, rowOverlay, }: Props) => JSX.Element>;
 export {};

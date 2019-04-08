@@ -16,5 +16,5 @@ export interface Props {
     onWidthChange: (key: string, newWidth: number) => void;
     onWidthChangeEnd?: (key: string, newWidth: number) => void;
 }
-export declare function HeaderCellWrapped({ column: { key, width, label, minWidth, name, notResizable }, dragHandleProps, draggableInnerRef, draggableProps, draggingKey, headerCellRefs, isLastChild, onWidthChange, onWidthChangeEnd, style, transform, }: Props & DragProps): JSX.Element;
+export declare const HeaderCellWrapped: ({ column: { key, width, label, minWidth, name, notResizable }, dragHandleProps, draggableInnerRef, draggableProps, draggingKey, headerCellRefs, isLastChild, onWidthChange, onWidthChangeEnd, style, transform, }: Props & DragProps) => JSX.Element;
 export {};

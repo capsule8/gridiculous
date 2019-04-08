@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { Column, Datum } from '../types';
+import { CellComponent } from './Cell';
 import { RowClickHandler, RowOverlayChild } from './Row';
 export interface Props {
+    cellComponent?: CellComponent;
     data: Datum[];
     defaultColumnMinWidth?: number;
     columns: Column[];

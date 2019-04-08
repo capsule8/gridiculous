@@ -8,3 +8,4 @@ export {
   RowOverlayChild,
   RowOverlayChildProps,
 } from './components/Row';
+export { CellComponent, CellComponentProps } from './components/Cell';

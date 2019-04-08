@@ -41,7 +41,7 @@ export function RowOverlay({
     }
   }, [gridNode]);
 
-  const scrollInterval = React.useRef<NodeJS.Timeout | null>(null);
+  const scrollInterval = React.useRef<number | null>(null);
   const handleScroll = React.useCallback(() => {
     if (!ref.current) {
       return;

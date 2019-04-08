@@ -4,3 +4,4 @@ export { useColumnOrderState } from './hooks/useColumnOrderState';
 export { sortColumns } from './utils/sortColumns';
 export { Column, Datum } from './types';
 export { RowClickHandler, RowOverlayChild, RowOverlayChildProps, } from './components/Row';
+export { CellComponent, CellComponentProps } from './components/Cell';

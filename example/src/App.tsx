@@ -1,7 +1,14 @@
+import classnames from 'classnames';
 import faker from 'faker';
 import _ from 'lodash';
 import React from 'react';
-import { Column, Datum, Grid, useColumnOrderState } from 'gridiculous';
+import {
+  CellComponentProps,
+  Column,
+  Datum,
+  Grid,
+  useColumnOrderState,
+} from 'gridiculous';
 
 import './App.css';
 import logo from './logo.svg';
@@ -131,18 +138,23 @@ export function App() {
         </button>
         <div className="Grid-container">
           <Grid
+            cellComponent={Cell}
             columns={columns}
             data={data}
             defaultColumnMinWidth={150}
             onColumnsOrderChange={handleColumnOrderChange}
             onColumnWidthChange={handleColumnWidthsChange}
             rowKey="id"
-            virtualizationEnabled={true}
+            virtualizationEnabled={false}
           />
         </div>
       </header>
     </div>
   );
+}
+
+function Cell({ className, ...restProps }: CellComponentProps) {
+  return <div className={classnames(className, 'Cell')} {...restProps} />;
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useHoverState } from '../hooks/useHoverState';
 import { Column, Datum } from '../types';
 
-import { Cell } from './Cell';
+import { Cell, CellComponent } from './Cell';
 import { RowOverlay } from './RowOverlay';
 
 import styles from './Row.scss';
@@ -23,6 +23,7 @@ export interface RowOverlayChildProps {
 export type RowOverlayChild = (o: RowOverlayChildProps) => React.ReactNode;
 
 interface Props {
+  cellComponent?: CellComponent;
   cellRefs: React.RefObject<Map<string, HTMLElement[]>>;
   columns: Column[];
   columnVisibility: boolean[] | null;
@@ -37,6 +38,7 @@ interface Props {
 
 export const Row = React.memo(
   ({
+    cellComponent,
     cellRefs,
     columns,
     columnVisibility,
@@ -84,6 +86,7 @@ export const Row = React.memo(
           const { key } = column;
           return (
             <Cell
+              cellComponent={cellComponent}
               column={column}
               datum={datum}
               isColumnVisible={Boolean(

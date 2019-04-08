@@ -14,12 +14,14 @@ import {
   applyColumnWidthDefaults,
 } from '../utils/columnWidthHelpers';
 
+import { CellComponent } from './Cell';
 import { Header } from './Header';
 import { Row, RowClickHandler, RowOverlayChild } from './Row';
 
 import styles from './Grid.scss';
 
 export interface Props {
+  cellComponent?: CellComponent;
   data: Datum[];
   defaultColumnMinWidth?: number;
   columns: Column[];
@@ -42,6 +44,7 @@ interface WrappedProps {
 export const GridWrapped = React.forwardRef(
   (
     {
+      cellComponent,
       columns: rawColumns,
       data,
       defaultColumnMinWidth = 200,
@@ -140,6 +143,7 @@ export const GridWrapped = React.forwardRef(
                 />
                 {data.map((datum, rowIndex) => (
                   <Row
+                    cellComponent={cellComponent}
                     cellRefs={cellRefs}
                     columns={columns}
                     columnVisibility={columnVisibility}
