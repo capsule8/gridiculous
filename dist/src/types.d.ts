@@ -1,5 +1,6 @@
 /// <reference types="react" />
 export interface Column {
+    autoWidth?: boolean;
     defaultWidth?: number;
     key: string;
     hidden?: boolean;

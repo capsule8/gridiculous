@@ -9,26 +9,23 @@ import logo from './logo.svg';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Formatter = (o: { value: any }) => React.ReactNode;
 
-const dateFormatter: Formatter = ({ value }) => value.toDateString();
-const aliasesFormatter: Formatter = ({ value: aliases }) =>
-  aliases.map((a: string) => _.capitalize(a)).join(', ');
-
 const COLUMNS: Column[] = [
-  { key: 'id', name: 'ID', notDraggable: true, notResizable: true },
-  { key: 'name', name: 'Name' },
   {
+    defaultWidth: 200,
+    key: 'id',
+    name: 'ID',
+    notDraggable: true,
+    notResizable: true,
+  },
+  { defaultWidth: 200, key: 'name', name: 'Name' },
+  {
+    autoWidth: true,
     defaultWidth: 300,
     key: 'address',
     minWidth: 200,
     name: 'Address For The Person Long Label',
   },
-  { key: 'birthdate', name: 'Birthdate', renderer: dateFormatter },
   { key: 'shoeSize', name: 'Shoe Size', defaultWidth: 80 },
-  { key: 'bloodType', name: 'Blood Type', defaultWidth: 80 },
-  { key: 'citizenship', name: 'Citizenship' },
-  { key: 'personalityType', name: 'Personality Type' },
-  { key: 'outstandingWarrants', name: 'Outstanding Warrants' },
-  { key: 'aliases', name: 'Aliases', renderer: aliasesFormatter },
 ];
 
 const range = (n: number) => Array.from(Array(n).keys());
