@@ -8,19 +8,24 @@ interface OverrideWidth {
 }
 
 const px = (n: number) => `${n}px`;
-const minmax = (defaultMinWidth: number) => `minmax(${defaultMinWidth}px, 1fr)`;
+const minmax = (defaultMinWidth: number) =>
+  `minmax(${px(defaultMinWidth)}, 1fr)`;
 
 export function columnsToGridTemplate(
   columns: Column[],
   defaultColumnMinWidth: number,
   override?: OverrideWidth,
 ) {
+  const isThereAFillWidthColumn = columns.some(({ fillWidth }) =>
+    Boolean(fillWidth),
+  );
+
   return columns
-    .map(({ key: k, width }, i) => {
+    .map(({ fillWidth, key: k, width }, i) => {
       if (override && k === override.key) {
         return px(override.newWidth);
       }
-      if (i === columns.length - 1) {
+      if (fillWidth || (!isThereAFillWidthColumn && i === columns.length - 1)) {
         if (isNumber(width)) {
           return minmax(width);
         }
