@@ -19,7 +19,7 @@ const COLUMNS: Column[] = [
   },
   { defaultWidth: 200, key: 'name', name: 'Name' },
   {
-    autoWidth: true,
+    fillWidth: true,
     defaultWidth: 300,
     key: 'address',
     minWidth: 200,

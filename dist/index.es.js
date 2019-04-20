@@ -2997,14 +2997,13 @@ function isNumber(value) {
 const px = (n) => `${n}px`;
 const minmax = (defaultMinWidth) => `minmax(${px(defaultMinWidth)}, 1fr)`;
 function columnsToGridTemplate(columns, defaultColumnMinWidth, override) {
-    const isThereAnAutoWidthColumn = columns.some(({ autoWidth }) => Boolean(autoWidth));
+    const isThereAFillWidthColumn = columns.some(({ fillWidth }) => Boolean(fillWidth));
     return columns
-        .map(({ autoWidth, key: k, width }, i) => {
+        .map(({ fillWidth, key: k, width }, i) => {
         if (override && k === override.key) {
             return px(override.newWidth);
         }
-        if (autoWidth ||
-            (!isThereAnAutoWidthColumn && i === columns.length - 1)) {
+        if (fillWidth || (!isThereAFillWidthColumn && i === columns.length - 1)) {
             if (isNumber(width)) {
                 return minmax(width);
             }

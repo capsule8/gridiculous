@@ -1,5 +1,5 @@
 export interface Column {
-  autoWidth?: boolean;
+  fillWidth?: boolean;
   defaultWidth?: number;
   key: string;
   hidden?: boolean;
