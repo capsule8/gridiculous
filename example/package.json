@@ -78,5 +78,9 @@
   "alias": {
     "react": "../node_modules/react",
     "react-dom": "../node_modules/react-dom"
+  },
+  "resolutions": {
+    "lodash": "^4.17.13",
+    "mem": "^4.0.0"
   }
 }

@@ -166,5 +166,10 @@
   "eslintIgnore": [
     "rollup.config.js",
     "*.scss"
-  ]
+  ],
+  "resolutions": {
+    "lodash": "^4.17.13",
+    "mem": "^4.0.0",
+    "js-yaml": "^3.13.1"
+  }
 }
