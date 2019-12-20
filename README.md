@@ -10,8 +10,7 @@ yarn add https://github.com/capsule8/gridiculous
 
 ## Usage
 
-TODO!
-
+Hello World:
 ```tsx
 import * as React from 'react';
 
@@ -22,6 +21,24 @@ class Example extends React.Component {
     return <Grid data={[]} columns={[]} />;
   }
 }
+```
+
+Add Some Data:
+```tsx
+<Grid
+  data={[{foo:"bar"}]}
+  rowKey="name"
+  columns={[{name:"Foo", key: "foo"}]} />
+```
+
+Add interactions:
+```tsx
+<Grid
+  onRowClick={(event, rowData) => {
+    console.log(rowData)
+  }}
+  
+  // ...
 ```
 
 ## Dev
