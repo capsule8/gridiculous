@@ -19,7 +19,7 @@ import { Grid } from 'gridiculous';
 
 class Example extends React.Component {
   render() {
-    return <Grid />;
+    return <Grid data={[]} columns={[]} />;
   }
 }
 ```
