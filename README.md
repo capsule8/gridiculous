@@ -31,6 +31,20 @@ Add Some Data:
   columns={[{name:"Foo", key: "foo"}]} />
 ```
 
+Customize the presentation of data:
+```tsx
+<Grid
+  columns={[
+    {
+      name:"Foo", 
+      key: "foo", 
+      renderer: ({value}) => <strong>{value}</strong>
+    }
+  ]}
+
+  // ...
+```
+
 Add interactions:
 ```tsx
 <Grid
